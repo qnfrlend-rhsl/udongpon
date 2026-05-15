@@ -102,7 +102,7 @@ function toggleAdmin() {
   if (!isAdmin) {
     const pw = prompt("관리자 비밀번호");
 
-    if (pw === "1234") {
+    if (pw === "132482") {
       isAdmin = true;
       localStorage.setItem("isAdmin", "true");
       alert("관리자 ON 🔓");
