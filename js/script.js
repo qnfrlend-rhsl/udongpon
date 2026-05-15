@@ -84,9 +84,9 @@ function renderMarkers(storesData) {
               font-size: 15px; 
               text-shadow: 0 1px 3px rgba(0,0,0,0.4);
             ">${emoji}</span>`,
-      iconSize: [11, 11],
+      iconSize: [15, 15],
       iconAnchor: [3, 7],  // 핀 밑부분 기준
-      popupAnchor: [+5, -5]
+      popupAnchor: [+10, -5]
     });
 
     const marker = L.marker([lat, lng], { icon }).addTo(map);
