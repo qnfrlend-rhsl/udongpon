@@ -81,12 +81,12 @@ function renderMarkers(storesData) {
     const icon = L.divIcon({
       className: "custom-pin",
       html: `<span style="
-              font-size: 15px; 
+              font-size: 17px; 
               text-shadow: 0 1px 3px rgba(0,0,0,0.4);
             ">${emoji}</span>`,
       iconSize: [15, 15],
-      iconAnchor: [2, 5],  // 핀 밑부분 기준
-      popupAnchor: [+11, -3]
+      iconAnchor: [3, 7],  // 핀 밑부분 기준
+      popupAnchor: [+10, -5]
     });
 
     const marker = L.marker([lat, lng], { icon }).addTo(map);
