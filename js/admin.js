@@ -4,6 +4,27 @@ let allCoupons = [];
 let allStores = [];
 let isAdmin = localStorage.getItem("isAdmin") === "true";
 
+async function getCoordsFromAddress(address) {
+  const url = `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(address)}`;
+
+  const res = await fetch(url, {
+    headers: {
+      Authorization: "846da9c22b564793cdc94811958c03eb"
+    }
+  });
+
+  const data = await res.json();
+
+  if (!data.documents.length) {
+    return null;
+  }
+
+  return {
+    lat: data.documents[0].y,
+    lng: data.documents[0].x
+  };
+}
+
 
 /* =========================
    ⭐ 쿠폰 로드
@@ -178,11 +199,13 @@ function setStoreStatus(storeId, mode) {
 /* =========================
    ⭐ 매장 등록
 ========================= */
-function addStore(status = 'active') { // status 기본값은 active
-    if (!isAdmin) {
+async function addStore(status = 'active') {
+
+  if (!isAdmin) {
     alert("관리자 모드 필요 🔒");
     return;
   }
+
   const storeName = document.getElementById("storeName")?.value || "";
   const category = document.getElementById("storeCategory")?.value || "";
   const dong = document.getElementById("storeDong")?.value || "";
@@ -191,8 +214,16 @@ function addStore(status = 'active') { // status 기본값은 active
   const discount = document.getElementById("storeDiscount")?.value || "";
   const websiteUrl = document.getElementById("storeWebsite")?.value || "";
 
+  // ⭐ 여기 핵심 추가
+  const coords = await getCoordsFromAddress(address);
+
+  if (!coords) {
+    alert("주소 좌표 변환 실패");
+    return;
+  }
+
   fetch(
-  GAS_URL +
+    GAS_URL +
     "?action=addStore" +
     "&storeName=" + encodeURIComponent(storeName) +
     "&category=" + encodeURIComponent(category) +
@@ -201,25 +232,23 @@ function addStore(status = 'active') { // status 기본값은 active
     "&phone=" + encodeURIComponent(phone) +
     "&discount=" + encodeURIComponent(discount) +
     "&websiteUrl=" + encodeURIComponent(websiteUrl) +
+    "&lat=" + encodeURIComponent(coords.lat) +
+    "&lng=" + encodeURIComponent(coords.lng) +
     "&status=" + encodeURIComponent(status)
-)
-.then(async (res) => {
-  const text = await res.text();
-  console.log("RAW RESPONSE:", text);
-  return JSON.parse(text);
-})
-.then(data => {
-  if (data.success) {
-    alert(status === 'active' ? "등록 완료 ❤️" : "등록대기 처리 완료 🤍");
-    loadStores();
-  } else {
-    alert("등록 실패");
-  }
-})
-.catch(err => {
-  console.error("등록 실패:", err);
-  alert("등록 중 오류 발생");
-});
+  )
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert("등록 완료 ❤️");
+      loadStores();
+    } else {
+      alert("등록 실패");
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    alert("등록 중 오류 발생");
+  });
 }
 /* =========================
    ⭐ 매장 삭제
