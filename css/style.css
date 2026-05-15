@@ -141,28 +141,18 @@ form input {
 
 #adminList {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 6px;
-  padding: 5px;
 }
 
 .card {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-size: 5px;
-
-  min-width: 0;
-  box-sizing: border-box;
-
   background: white;
-  padding: 6px;
+  padding: 10px;
   border-radius: 10px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 
-  transition: transform 0.15s ease;
-
-  /* margin: auto 제거 */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .card:active {
