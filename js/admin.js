@@ -9,7 +9,7 @@ async function getCoordsFromAddress(address) {
 
   const res = await fetch(url, {
     headers: {
-      Authorization: "846da9c22b564793cdc94811958c03eb"
+      Authorization: "KakaoAK 846da9c22b564793cdc94811958c03eb"
     }
   });
 
