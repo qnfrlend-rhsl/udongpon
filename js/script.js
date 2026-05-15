@@ -84,7 +84,7 @@ function renderMarkers(storesData) {
               font-size: 9px; 
               text-shadow: 0 1px 3px rgba(0,0,0,0.4);
             ">${emoji}</span>`,
-      iconSize: [5, 5],
+      iconSize: [7, 7],
       iconAnchor: [2, 5],  // 핀 밑부분 기준
       popupAnchor: [0, -28]
     });
