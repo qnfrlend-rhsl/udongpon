@@ -142,30 +142,30 @@ form input {
 #adminList {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 6px;
+  gap: 1px;
+  padding: 1px;
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  font-size: 5px;
+  gap: 1px;
+
+  font-size: 7px;
 
   min-width: 0;
   box-sizing: border-box;
 
   background: white;
-  padding: 6px;
-  border-radius: 10px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  padding: 2px;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 
-  transition: transform 0.15s ease;
-
-  /* margin: auto 제거 */
+  transition: transform 0.1s ease;
 }
 
 .card:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 
 .card div {
@@ -173,20 +173,23 @@ form input {
   word-break: break-word;
   font-size: inherit;
 }
+
 .card .row {
-  font-size: 5px;
-  line-height: 1.2;
+  font-size: 7px;
+  line-height: 1;
 }
 
 @media (max-width: 600px) {
   #adminList {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
   }
 }
 
 @media (max-width: 400px) {
   #adminList {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3px;
   }
 }
 
