@@ -1,0 +1,13 @@
+{
+  "name": "우동폰 관리자",
+  "short_name": "관리자",
+  "start_url": "/admin.html",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "./icon1.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
