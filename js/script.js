@@ -81,7 +81,7 @@ function renderMarkers(storesData) {
     const icon = L.divIcon({
       className: "custom-pin",
       html: `<span style="
-              font-size: 7px; 
+              font-size: 9px; 
               text-shadow: 0 1px 3px rgba(0,0,0,0.4);
             ">${emoji}</span>`,
       iconSize: [5, 5],
