@@ -143,20 +143,20 @@ form input {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 6px;
-  padding: 6px;
+  padding: 5px;
 }
 
 .card {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-size: 8px;
+  font-size: 5px;
 
   min-width: 0;
   box-sizing: border-box;
 
   background: white;
-  padding: 8px;
+  padding: 6px;
   border-radius: 10px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 
@@ -175,7 +175,7 @@ form input {
   font-size: inherit;
 }
 .card .row {
-  font-size: 8px;
+  font-size: 5px;
   line-height: 1.2;
 }
 
