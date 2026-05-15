@@ -141,9 +141,9 @@ form input {
 
 #adminList {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* 140 → 140px */
-  gap: 12px;
-  padding: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  padding: 6px;
 }
 
 .card {
@@ -156,9 +156,9 @@ form input {
   box-sizing: border-box;
 
   background: white;
-  padding: 12px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 8px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 
   transition: transform 0.15s ease;
 
