@@ -81,11 +81,11 @@ function renderMarkers(storesData) {
     const icon = L.divIcon({
       className: "custom-pin",
       html: `<span style="
-              font-size: 10px; 
+              font-size: 7px; 
               text-shadow: 0 1px 3px rgba(0,0,0,0.4);
             ">${emoji}</span>`,
-      iconSize: [7, 7],
-      iconAnchor: [3, 7],  // 핀 밑부분 기준
+      iconSize: [5, 5],
+      iconAnchor: [2, 5],  // 핀 밑부분 기준
       popupAnchor: [0, -28]
     });
 
