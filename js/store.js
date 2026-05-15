@@ -1,0 +1,181 @@
+const GAS_URL = "https://script.google.com/macros/s/AKfycbw5vXb9Yue650Fj_vXt6jskm5mTXde7hJePp6QJqSUl0-U3i_zPCNtMJNOvS4x6VSn8GQ/exec";
+
+const params = new URLSearchParams(window.location.search);
+const storeName = params.get("name");
+let store = null;
+
+/* =========================
+   매장 정보 로드
+========================= */
+fetch(GAS_URL + "?action=getStores")
+  .then(res => res.json())
+  .then(data => {
+    store = data.find(
+      s => String(s.storeName).trim() === String(storeName).trim()
+    );
+
+    if (!store) {
+      alert("매장 정보를 찾을 수 없습니다.");
+      throw new Error("store not found");
+    }
+
+    const storeNameEl = document.getElementById("storeName");
+    const discountEl = document.getElementById("discount");
+
+    if (storeNameEl) storeNameEl.textContent = storeName;
+    if (discountEl) discountEl.textContent = `${store.discount || "-"}`;
+
+    loadCoupons();
+  })
+  .catch(err => {
+    console.error(err);
+  });
+
+let selectedType = "store";
+let timerInterval = null;
+
+/* =========================
+   홈페이지 열기
+========================= */
+function openHomepage() {
+  if (store?.websiteUrl) {
+    window.open(store.websiteUrl, "_blank");
+  } else {
+    alert("등록된 홈페이지가 없습니다.");
+  }
+}
+
+/* =========================
+   타입 선택
+========================= */
+function selectType(type) {
+  selectedType = type;
+
+  const addressInput = document.getElementById("address");
+  if (!addressInput) return;
+
+  if (type === "delivery") {
+    addressInput.classList.remove("hidden");
+    addressInput.required = true;
+  } else {
+    addressInput.classList.add("hidden");
+    addressInput.required = false;
+  }
+}
+
+/* =========================
+   쿠폰 발급
+========================= */
+document.getElementById("couponForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  if (!store) {
+    alert("매장 정보를 불러오는 중입니다.");
+    return;
+  }
+
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+  const address = document.getElementById("address").value;
+
+  const key = `coupon_${storeName}_${phone}`;
+  const now = Date.now();
+
+  let logs = JSON.parse(localStorage.getItem(key)) || [];
+  logs = logs.filter(time => now - time < 24 * 60 * 60 * 1000);
+
+  if (logs.length >= 2) {
+    alert("24시간 내 최대 2회까지만 발급 가능합니다.");
+    return;
+  }
+
+  logs.push(now);
+  localStorage.setItem(key, JSON.stringify(logs));
+
+  fetch(
+    GAS_URL +
+      "?action=issueCoupon" +
+      "&storeName=" + encodeURIComponent(storeName) +
+      "&storeId=" + encodeURIComponent(store.storeId || "") +
+      "&name=" + encodeURIComponent(name) +
+      "&phone=" + encodeURIComponent(phone) +
+      "&address=" + encodeURIComponent(address) +
+      "&type=" + encodeURIComponent(selectedType)
+  )
+    .then(async (res) => {
+      const text = await res.text();
+      console.log("RAW RESPONSE:", text);
+      return JSON.parse(text);
+    })
+    .then(data => {
+      console.log("쿠폰 발급 완료:", data);
+      alert("쿠폰이 발급되었습니다!");
+      loadCoupons();
+    })
+    .catch(err => {
+      console.error(err);
+      alert("쿠폰 발급 실패");
+    });
+}); // ✅ submit 함수 정상 종료
+
+/* =========================
+   쿠폰 불러오기
+========================= */
+function loadCoupons() {
+  fetch(GAS_URL + "?action=getCoupons")
+    .then(res => res.json())
+    .then(data => {
+
+      console.log("🔥 raw data:", data);
+
+      const list = Array.isArray(data)
+        ? data
+        : data.data || data.result || [];
+
+      const myCoupons = list.filter(coupon =>
+        String(coupon.storeName).trim() === String(storeName).trim()
+      );
+
+      renderCoupons(myCoupons);
+    })
+    .catch(err => {
+      console.error("쿠폰 불러오기 실패:", err);
+    });
+}
+
+/* =========================
+   쿠폰 렌더
+========================= */
+function renderCoupons(coupons) {
+  const listElement = document.getElementById("couponList");
+
+  if (!coupons || coupons.length === 0) {
+    listElement.innerHTML = "발급된 쿠폰이 없습니다.";
+    return;
+  }
+
+  let html = "";
+
+  coupons.forEach(c => {
+    const isActive = c.status === "active";
+
+    html += `
+      <div class="coupon-card">
+        <div class="coupon-top">
+          <span class="coupon-name">${c.name || "이름 없음"}</span>
+
+          <span class="coupon-status ${isActive ? "status-active" : "status-expired"}">
+            ${isActive ? "🟢 사용가능" : "⚪ 만료"}
+          </span>
+        </div>
+
+        <div class="coupon-info">
+          🏪 ${c.storeName || "-"}<br>
+          🕒 ${new Date(c.issuedAt).toLocaleString("ko-KR")}
+        </div>
+      </div>
+    `;
+  });
+
+  listElement.innerHTML = html;
+}

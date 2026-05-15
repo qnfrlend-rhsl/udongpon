@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>우동폰 - 우리동네쿠폰</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+
+  <header class="header">
+    <h1>우동폰</h1>
+    <p>우리동네 할인쿠폰</p>
+  </header>
+
+  <section class="search-section">
+    <input type="text" id="dongInput" placeholder="동 이름 검색 (예: 서울시 역삼동)">
+    <button onclick="searchDong()">검색</button>
+  </section>
+
+  <section class="category-section">
+    <button onclick="filterCategory('전체')">전체</button>
+    <button onclick="filterCategory('고기')">고기</button>
+    <button onclick="filterCategory('닭갈비')">닭갈비</button>
+    <button onclick="filterCategory('커피')">커피</button>
+    <button onclick="filterCategory('치킨')">치킨</button>
+    <button onclick="filterCategory('피자')">피자</button>
+    <button onclick="filterCategory('햄버거')">햄버거</button>
+    <button onclick="filterCategory('술집')">술집</button>
+    <button onclick="filterCategory('한식')">한식</button>
+    <button onclick="filterCategory('중식')">중식</button>
+    <button onclick="filterCategory('양식')">양식</button>
+    <button onclick="filterCategory('일식')">일식</button>
+    <button onclick="filterCategory('간식')">간식</button>
+    <button onclick="filterCategory('미용실')">미용실</button>
+  </section>
+
+  <div id="map"></div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

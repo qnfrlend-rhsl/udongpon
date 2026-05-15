@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자 페이지</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f5f5f5;
+    }
+
+    header {
+      background: #ff6b35;
+      color: white;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .container {
+      padding: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .btn-add {
+      background: #ff6b35;
+      color: white;
+      width: 100%;
+    }
+
+    .btn-edit {
+      background: #3498db;
+      color: white;
+      margin-right: 5px;
+    }
+
+    .btn-delete {
+      background: #e74c3c;
+      color: white;
+    }
+
+    .card {
+      background: white;
+      padding: 12px;
+      border-radius: 10px;
+      margin: 6px;
+      max-width: 320px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .status {
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 6px;
+      display: inline-block;
+      margin-top: 4px;
+    }
+
+    .active {
+      background: #e7f7ea;
+      color: #1b8a3c;
+    }
+
+    .expired {
+      background: #ffe7e7;
+      color: #c0392b;
+    }
+
+    hr {
+      margin: 20px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>관리자 페이지</h1>
+</header>
+
+<div class="container">
+
+  <!-- =========================
+       1️⃣ 쿠폰 관리 (맨 위)
+  ========================== -->
+  <h2>쿠폰 관리</h2>
+
+  <label for="storeFilter">매장 선택</label>
+  <select id="storeFilter">
+    <option value="all">전체</option>
+  </select>
+
+  <div id="adminList"></div>
+
+  <hr>
+
+  <!-- =========================
+       2️⃣ 매장 등록
+  ========================== -->
+  <h2>📌 매장 등록</h2>
+  <button onclick="toggleAdmin()" id="adminBtn">관리자 OFF</button>
+
+  <input id="storeName" placeholder="매장명">
+  <input id="storeCategory" placeholder="카테고리">
+  <input id="storeDong" placeholder="동 (예: 후평동)">
+  <input id="storeAddress" placeholder="주소">
+  <input id="storePhone" placeholder="전화번호">
+  <input id="storeDiscount" placeholder="할인 금액 또는 품목">
+  <input id="storeWebsite" placeholder="웹사이트 URL">
+
+  <button onclick="addStore('active')">매장 등록</button>
+  <button onclick="addStore('pending')">등록 대기</button>
+
+  <h2>📌 등록된 매장</h2>
+  <input
+  id="storeSearch"
+  placeholder="매장명 검색"
+  onkeyup="searchStore()"
+  />
+  <div id="storeList"></div>
+  
+
+</div>
+
+<script src="./js/admin.js"></script>
+</body>
+</html>

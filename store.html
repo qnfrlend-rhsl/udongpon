@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>매장 상세</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="header">
+    <h1>매장 상세</h1>
+  </header>
+
+  <div class="store-container">
+  <h2 id="storeName"></h2>
+  <p id="discount"></p>
+
+  <button onclick="openHomepage()">홈페이지 보기</button>
+
+  <h3>쿠폰 다운로드</h3>
+
+  <div class="coupon-type">
+    <button onclick="selectType('store')">매장/포장</button>
+    <button onclick="selectType('delivery')">배달</button>
+  </div>
+
+  <form id="couponForm">
+    <input type="text" id="name" placeholder="이름" required>
+    <input type="text" id="phone" placeholder="전화번호" required>
+
+    <input type="text" id="address" class="hidden" placeholder="주소">
+
+    <button type="submit">쿠폰 발급</button>
+  </form>
+
+   <div id="timer"></div>
+   <div id="couponList"></div>
+</div>
+
+  <script src="js/store.js"></script>
+</body>
+</html>
