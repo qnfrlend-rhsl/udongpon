@@ -86,7 +86,7 @@ function renderMarkers(storesData) {
             ">${emoji}</span>`,
       iconSize: [15, 15],
       iconAnchor: [3, 7],  // 핀 밑부분 기준
-      popupAnchor: [+7, -4]
+      popupAnchor: [+5, -3]
     });
 
     const marker = L.marker([lat, lng], { icon }).addTo(map);
