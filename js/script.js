@@ -1,3 +1,4 @@
+
 const GAS_URL = "https://script.google.com/macros/s/AKfycbw5vXb9Yue650Fj_vXt6jskm5mTXde7hJePp6QJqSUl0-U3i_zPCNtMJNOvS4x6VSn8GQ/exec";
 
 // 지도 초기화
@@ -14,7 +15,7 @@ let allCoupons = [];
 let currentDong = "후평3동";
 let currentCategory = "전체";
 
-// 동 좌표 (이건 유지)
+// 📍 지역 좌표 (동 + 면 + 읍 + 리 통합 유지 구조)
 const dongCoords = {
   "교동": [37.8813, 127.7278],
   "조운동": [37.8785, 127.7242],
@@ -27,6 +28,8 @@ const dongCoords = {
   "퇴계동": [37.8510, 127.7580],
   "강남동": [37.8730, 127.7050],
   "신사우동": [37.9000, 127.7500],
+
+  // 면/읍/리 확장
   "동면": [37.9170, 127.8020],
   "서면": [37.8800, 127.6300],
   "남면": [37.7900, 127.6500],
@@ -36,26 +39,23 @@ const dongCoords = {
   "동내면": [37.8550, 127.7650],
   "신북읍": [37.9400, 127.7700],
   "만천리": [37.9188, 127.7985]
-
 };
 
-// 데이터 로드
+// 데이터 로드 (stores만 먼저 렌더)
 fetch(GAS_URL + "?action=getStores")
   .then(res => res.json())
   .then(stores => {
-    allStores = stores;
-    renderMarkers(stores);
+    allStores = stores || [];
+    renderMarkers(allStores);
   })
-  .catch(err => {
-    console.error(err);
-  });
+  .catch(err => console.error("STORE ERROR:", err));
 
 // 상세 이동
 function goToStore(storeName) {
   window.location.href = `store.html?name=${encodeURIComponent(storeName)}`;
 }
 
-// 동 검색 (여기 그대로 OK)
+// 지역 검색
 function searchDong() {
   const dong = document.getElementById("dongInput").value.trim();
 
@@ -66,7 +66,7 @@ function searchDong() {
   if (dongCoords[dong]) {
     map.setView(dongCoords[dong], 15, { animate: true });
   } else {
-    alert("해당 동 좌표가 없습니다.");
+    alert("해당 지역 좌표가 없습니다.");
     return;
   }
 
@@ -75,39 +75,44 @@ function searchDong() {
 
 // 마커 렌더
 function renderMarkers(storesData) {
-  // 기존 마커 제거
+
   markers.forEach(m => map.removeLayer(m));
   markers = [];
 
-  storesData.forEach(store => {
+  (storesData || []).forEach(store => {
+
     const lat = Number(store.lat);
     const lng = Number(store.lng);
+
     if (!lat || !lng) return;
 
     const status = store.status || "pending";
-
-    // 상태별 이모지
     const emoji = status === "active" ? "💖" : "💛";
 
     const icon = L.divIcon({
       className: "custom-pin",
-      html: `<span style="
-              font-size: 17px; 
-              text-shadow: 0 1px 3px rgba(0,0,0,0.4);
-            ">${emoji}</span>`,
+      html: `
+        <span style="
+          font-size: 17px;
+          text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+        ">
+          ${emoji}
+        </span>
+      `,
       iconSize: [15, 15],
-      iconAnchor: [3, 7],  // 핀 밑부분 기준
-      popupAnchor: [+5, -3]
+      iconAnchor: [3, 7],
+      popupAnchor: [5, -3]
     });
 
     const marker = L.marker([lat, lng], { icon }).addTo(map);
 
     let popupContent = `<b>${store.storeName}</b><br>🎁 ${store.discount || "-" }<br><br>`;
-    popupContent += `<button onclick="openWebsite('${store.websiteUrl}')">홈페이지 보기</button>`;
+    popupContent += `<button onclick="openWebsite('${store.websiteUrl || ""}')">홈페이지 보기</button>`;
+
     if (status === "active") {
-    popupContent += `<br><br><button onclick="goToStore('${store.storeName}')">쿠폰받기</button>`;
+      popupContent += `<br><br><button onclick="goToStore('${store.storeName}')">쿠폰받기</button>`;
     } else {
-    popupContent += `<br><br><span style="font-size:16px; font-weight:bold; color:red;">등록대기중</span>`;
+      popupContent += `<br><br><span style="font-size:16px;font-weight:bold;color:red;">등록대기중</span>`;
     }
 
     marker.bindPopup(popupContent);
@@ -115,17 +120,18 @@ function renderMarkers(storesData) {
   });
 }
 
-// 카테고리
+// 카테고리 필터
 function filterCategory(category) {
   currentCategory = category;
 
-  // ⭐ 전체 클릭하면 동도 초기화 (핵심)
   if (category === "전체") {
     currentDong = "";
   }
 
   applyFilter();
 }
+
+// 외부 링크
 function openWebsite(url) {
   if (!url) {
     alert("등록된 홈페이지가 없습니다.");
@@ -135,19 +141,19 @@ function openWebsite(url) {
   window.open(url, "_blank");
 }
 
-// ⭐⭐⭐ 핵심 수정 (여기만 바뀜)
+// 필터
 function applyFilter() {
 
-  let filtered = allStores;
+  let filtered = allStores || [];
 
-  // 🔥 동 필터 (빈 값이면 무시)
-  if (currentDong && currentDong !== "") {
+  // 지역 필터
+  if (currentDong) {
     filtered = filtered.filter(store =>
       (store.dong || "").includes(currentDong)
     );
   }
 
-  // 🔥 카테고리 필터
+  // 카테고리 필터
   if (currentCategory && currentCategory !== "전체") {
     filtered = filtered.filter(store =>
       store.category === currentCategory
@@ -157,6 +163,7 @@ function applyFilter() {
   renderMarkers(filtered);
 }
 
+// 엔터 검색
 document.getElementById("dongInput").addEventListener("keypress", function(e) {
   if (e.key === "Enter") {
     searchDong();
