@@ -126,7 +126,7 @@ function issueCoupon(name, phone, address) {
     })
     .then(data => {
       console.log("쿠폰 발급 완료:", data);
-      alert("쿠폰이 발급되었습니다!");
+      alert("쿠폰이 이미 발급되었습니다!");
       loadCoupons();
     })
     .catch(err => {
