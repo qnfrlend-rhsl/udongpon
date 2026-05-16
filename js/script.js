@@ -1,4 +1,3 @@
-
 const GAS_URL = "https://script.google.com/macros/s/AKfycbw5vXb9Yue650Fj_vXt6jskm5mTXde7hJePp6QJqSUl0-U3i_zPCNtMJNOvS4x6VSn8GQ/exec";
 
 // 지도 초기화
@@ -15,7 +14,10 @@ let allCoupons = [];
 let currentDong = "후평3동";
 let currentCategory = "전체";
 
-// 📍 지역 좌표 (동 + 면 + 읍 + 리 통합 유지 구조)
+// 🔥 배지 크기 (여기서 조절)
+let badgeSize = 16;
+
+// 📍 지역 좌표
 const dongCoords = {
   "교동": [37.8813, 127.7278],
   "조운동": [37.8785, 127.7242],
@@ -29,7 +31,6 @@ const dongCoords = {
   "강남동": [37.8730, 127.7050],
   "신사우동": [37.9000, 127.7500],
 
-  // 면/읍/리 확장
   "동면": [37.881964, 127.764511],
   "서면": [37.8800, 127.6300],
   "남면": [37.7900, 127.6500],
@@ -41,7 +42,7 @@ const dongCoords = {
   "만천리": [37.877434, 127.771491]
 };
 
-// 데이터 로드 (stores만 먼저 렌더)
+// 데이터 로드
 fetch(GAS_URL + "?action=getStores")
   .then(res => res.json())
   .then(stores => {
@@ -73,7 +74,7 @@ function searchDong() {
   applyFilter();
 }
 
-// 마커 렌더
+// 🔥 마커 렌더 (배지 추가 버전)
 function renderMarkers(storesData) {
 
   markers.forEach(m => map.removeLayer(m));
@@ -83,24 +84,59 @@ function renderMarkers(storesData) {
 
     const lat = Number(store.lat);
     const lng = Number(store.lng);
-
     if (!lat || !lng) return;
 
     const status = store.status || "pending";
     const emoji = status === "active" ? "💖" : "💛";
 
+    // 🔥 배지 조건
+    const showBadge =
+      status === "active" &&
+      store.discount &&
+      store.discount.trim() !== "";
+
     const icon = L.divIcon({
       className: "custom-pin",
       html: `
-        <span style="
-          font-size: 17px;
-          text-shadow: 0 1px 3px rgba(0,0,0,0.4);
-        ">
-          ${emoji}
-        </span>
+        <div style="position:relative;display:inline-block;">
+
+          <!-- 💖💛 하트 -->
+          <span style="
+            font-size:17px;
+            text-shadow:0 1px 3px rgba(0,0,0,0.4);
+          ">
+            ${emoji}
+          </span>
+
+          <!-- 🔥 배지 -->
+          ${showBadge ? `
+            <div
+              style="
+                position:absolute;
+                top:-${badgeSize * 0.4}px;
+                right:-${badgeSize * 0.4}px;
+                width:${badgeSize}px;
+                height:${badgeSize}px;
+                background:#ff4d4d;
+                color:white;
+                font-size:${badgeSize * 0.55}px;
+                border-radius:50%;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                box-shadow:0 1px 3px rgba(0,0,0,0.25);
+                cursor:default;
+              "
+              title="${store.discount || ''}"
+            >
+              🔥
+            </div>
+          ` : ""}
+
+        </div>
       `,
-      iconSize: [15, 15],
-      iconAnchor: [3, 7],
+      iconSize: [20, 20],
+      iconAnchor: [10, 10],
       popupAnchor: [5, -3]
     });
 
@@ -146,14 +182,12 @@ function applyFilter() {
 
   let filtered = allStores || [];
 
-  // 지역 필터
   if (currentDong) {
     filtered = filtered.filter(store =>
       (store.dong || "").includes(currentDong)
     );
   }
 
-  // 카테고리 필터
   if (currentCategory && currentCategory !== "전체") {
     filtered = filtered.filter(store =>
       store.category === currentCategory
