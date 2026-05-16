@@ -93,9 +93,10 @@ function renderMarkers(storesData) {
 
     let popupContent = `<b>${store.storeName}</b><br>🎁 ${store.discount || "-" }<br><br>`;
     popupContent += `<button onclick="openWebsite('${store.websiteUrl}')">홈페이지 보기</button>`;
+    if (status === "active") {
     popupContent += `<br><br><button onclick="goToStore('${store.storeName}')">쿠폰받기</button>`;
-    if(status !== "active") {
-    popupContent += `<br><span style="font-size:16px; font-weight:bold; color:red;">등록대기중</span>`;
+    } else {
+    popupContent += `<br><br><span style="font-size:16px; font-weight:bold; color:red;">등록대기중</span>`;
     }
 
     marker.bindPopup(popupContent);
