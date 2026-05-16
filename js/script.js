@@ -17,7 +17,7 @@ let currentCategory = "전체";
 // 🔥 배지 크기 (여기서 조절)
 let badgeSize = 20;
 let badgeOffsetX = 0;
-let badgeOffsetY = 0;
+let badgeOffsetY = -10;
 
 // 📍 지역 좌표
 const dongCoords = {
@@ -126,7 +126,7 @@ function renderMarkers(storesData) {
         background: none;
         color:white;
         font-size:${badgeSize * 0.85}px;
-        border: 1px solid rgba(255,255,255,0.4);
+        border: none;
         display:flex;
         align-items:center;
         justify-content:center;
