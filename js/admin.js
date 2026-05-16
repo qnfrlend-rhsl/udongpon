@@ -110,7 +110,7 @@ function renderCoupons(filter) {
 
         <div class="btn-area">
           ${isActive
-          ? `<button onclick="payCoupon('${id}')">결제완료</button>`
+          ? `<button onclick="payCoupon('${id}')">결제대기</button>`
            : ""}
           <!-- <button onclick="deleteCoupon('${id}')">삭제</button> -->
         </div>
