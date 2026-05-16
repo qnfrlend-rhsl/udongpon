@@ -15,7 +15,7 @@ let currentDong = "후평3동";
 let currentCategory = "전체";
 
 // 🔥 배지 크기 (여기서 조절)
-let badgeSize = 16;
+let badgeSize = 24;
 
 // 📍 지역 좌표
 const dongCoords = {
