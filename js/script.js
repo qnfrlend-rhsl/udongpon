@@ -1,7 +1,7 @@
 const GAS_URL = "https://script.google.com/macros/s/AKfycbw5vXb9Yue650Fj_vXt6jskm5mTXde7hJePp6QJqSUl0-U3i_zPCNtMJNOvS4x6VSn8GQ/exec";
 
 // 지도 초기화
-const map = L.map('map').setView([37.885811, 127.743315], 15);
+const map = L.map('map').setView([37.881346, 127.748049], 15);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; OpenStreetMap contributors'
