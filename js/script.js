@@ -151,6 +151,13 @@ function renderMarkers(storesData) {
 
     const marker = L.marker([lat, lng], { icon }).addTo(map);
 
+    marker.bindTooltip(store.storeName, {
+    direction: "top",
+    offset: [0, -10],
+    permanent: false,
+    sticky: true
+    });
+
     let popupContent = `<b>${store.storeName}</b><br>🎁 ${store.discount || "-" }<br><br>`;
     popupContent += `<button onclick="openWebsite('${store.websiteUrl || ""}')">홈페이지 보기</button>`;
 
