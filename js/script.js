@@ -123,7 +123,7 @@ function renderMarkers(storesData) {
       style="
         width:${badgeSize}px;
         height:${badgeSize}px;
-        background: rgba(255, 77, 77, 0.85);
+        background: none;
         color:white;
         font-size:${badgeSize * 0.85}px;
         border: 1px solid rgba(255,255,255,0.4);
@@ -132,7 +132,7 @@ function renderMarkers(storesData) {
         justify-content:center;
         box-shadow:0 1px 3px rgba(0,0,0,0.15);
       ">
-      💸
+      🎁
     </div>
 
     <div class="badge-tooltip">
