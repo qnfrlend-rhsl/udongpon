@@ -86,7 +86,7 @@ function renderMarkers(storesData) {
 
     // 🔥 쿠폰 여부 (핵심 추가)
     const hasCoupon = allCoupons.some(c =>
-     (c.storeName || "").trim() === (store.storeName || "").trim()
+      c.storeId === store.storeId
     );
 
     const icon = L.divIcon({
