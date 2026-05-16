@@ -152,8 +152,8 @@ function renderMarkers(storesData) {
     const marker = L.marker([lat, lng], { icon }).addTo(map);
 
     marker.bindTooltip(store.storeName, {
-    direction: "top",
-    offset: [0, -10],
+    direction: "bottom",
+    offset: [0, 10],
     permanent: false,
     sticky: true
     });
