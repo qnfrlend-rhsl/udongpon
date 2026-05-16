@@ -80,6 +80,8 @@ document.getElementById("couponForm").addEventListener("submit", function (e) {
         ? data
         : data.data || data.result || [];
 
+        console.log("쿠폰목록 확인", list);
+
       const hasActiveCoupon = list.some(c => {
         const issuedTime = new Date(c.issuedAt).getTime();
         const isExpired = now - issuedTime > 2 * 60 * 60 * 1000;
