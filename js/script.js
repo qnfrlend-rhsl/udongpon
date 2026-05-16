@@ -15,7 +15,9 @@ let currentDong = "후평3동";
 let currentCategory = "전체";
 
 // 🔥 배지 크기 (여기서 조절)
-let badgeSize = 16;
+let badgeSize = 20;
+let badgeOffsetX = 0;
+let badgeOffsetY = 0;
 
 // 📍 지역 좌표
 const dongCoords = {
@@ -113,22 +115,22 @@ function renderMarkers(storesData) {
   <div class="badge-wrap"
        style="
          position:absolute;
-         top:-${badgeSize * 0.4}px;
-         right:-${badgeSize * 0.4}px;
+         top:${badgeOffsetY - badgeSize * 0.4}px;
+         left:${badgeOffsetX}px;
        ">
 
     <div class="badge-icon"
       style="
         width:${badgeSize}px;
         height:${badgeSize}px;
-        background:#ff4d4d;
+        background: rgba(255, 77, 77, 0.85);
         color:white;
-        font-size:${badgeSize * 0.55}px;
-        border-radius:50%;
+        font-size:${badgeSize * 0.85}px;
+        border: 1px solid rgba(255,255,255,0.4);
         display:flex;
         align-items:center;
         justify-content:center;
-        box-shadow:0 1px 3px rgba(0,0,0,0.25);
+        box-shadow:0 1px 3px rgba(0,0,0,0.15);
       ">
       💸
     </div>
