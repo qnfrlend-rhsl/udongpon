@@ -110,28 +110,35 @@ function renderMarkers(storesData) {
 
           <!-- 🔥 배지 -->
           ${showBadge ? `
-            <div
-              style="
-                position:absolute;
-                top:-${badgeSize * 0.4}px;
-                right:-${badgeSize * 0.4}px;
-                width:${badgeSize}px;
-                height:${badgeSize}px;
-                background:#ff4d4d;
-                color:white;
-                font-size:${badgeSize * 0.55}px;
-                border-radius:50%;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                box-shadow:0 1px 3px rgba(0,0,0,0.25);
-                cursor:default;
-              "
-              title="${store.discount || ''}"
-            >
-              🔥
-            </div>
-          ` : ""}
+  <div class="badge-wrap"
+       style="
+         position:absolute;
+         top:-${badgeSize * 0.4}px;
+         right:-${badgeSize * 0.4}px;
+       ">
+
+    <div class="badge-icon"
+      style="
+        width:${badgeSize}px;
+        height:${badgeSize}px;
+        background:#ff4d4d;
+        color:white;
+        font-size:${badgeSize * 0.55}px;
+        border-radius:50%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        box-shadow:0 1px 3px rgba(0,0,0,0.25);
+      ">
+      🔥
+    </div>
+
+    <div class="badge-tooltip">
+      ${store.discount || ""}
+    </div>
+
+  </div>
+` : ""}
 
         </div>
       `,

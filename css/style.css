@@ -254,3 +254,28 @@ form input {
   background: #f1f3f5;
   color: #868e96;
 }
+.badge-wrap {
+  position: absolute;
+  cursor: default;
+}
+
+.badge-tooltip {
+  display: none;
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.85);
+  color: white;
+  font-size: 12px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  z-index: 9999;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+/* hover 시 말풍선 표시 */
+.badge-wrap:hover .badge-tooltip {
+  display: block;
+}
