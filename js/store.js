@@ -87,11 +87,11 @@ document.getElementById("couponForm").addEventListener("submit", function (e) {
         const isExpired = now - issuedTime > 2 * 60 * 60 * 1000;
 
         return (
-          String(c.storeName).trim() === String(storeName).trim() &&
-          String(c.phone).trim() === String(phone).trim() &&
-          c.status === "active" &&
-          !isExpired
-        );
+        String(c.storeName).trim() === String(storeName).trim() &&
+        normalizePhone(c.phone) === normalizePhone(phone) &&
+        c.status === "active" &&
+        !isExpired
+      );
       });
 
       if (hasActiveCoupon) {
@@ -128,7 +128,7 @@ function issueCoupon(name, phone, address) {
     })
     .then(data => {
       console.log("쿠폰 발급 완료:", data);
-      alert("쿠폰이 이미 발급되었습니다!");
+      alert("쿠폰이 발급되었습니다!");
       loadCoupons();
     })
     .catch(err => {
@@ -200,4 +200,10 @@ function renderCoupons(coupons) {
   });
 
   listElement.innerHTML = html;
+}
+
+function normalizePhone(value) {
+  return String(value)
+    .replace(/[^0-9]/g, "")
+    .replace(/^0/, "");
 }
