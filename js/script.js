@@ -64,7 +64,7 @@ function searchDong() {
     return;
   }
 
-  setTimeout(() => applyFilter(), 0);
+  applyFilter();
 }
 
 // 🔥 마커 렌더 (쿠폰 오버레이 추가 버전)
