@@ -19,20 +19,14 @@ fetch(GAS_URL + "?action=getStores")
       throw new Error("store not found");
     }
 
-    const storeNameEl = document.getElementById("storeName");
-    const discountEl = document.getElementById("discount");
-
-    if (storeNameEl) storeNameEl.textContent = storeName;
-    if (discountEl) discountEl.textContent = `${store.discount || "-"}`;
+    document.getElementById("storeName").textContent = storeName;
+    document.getElementById("discount").textContent = `${store.discount || "-"}`;
 
     loadCoupons();
   })
-  .catch(err => {
-    console.error(err);
-  });
+  .catch(err => console.error(err));
 
 let selectedType = "store";
-let timerInterval = null;
 
 /* =========================
    홈페이지 열기
@@ -52,7 +46,6 @@ function selectType(type) {
   selectedType = type;
 
   const addressInput = document.getElementById("address");
-  if (!addressInput) return;
 
   if (type === "delivery") {
     addressInput.classList.remove("hidden");
@@ -74,24 +67,48 @@ document.getElementById("couponForm").addEventListener("submit", function (e) {
     return;
   }
 
-  const name = document.getElementById("name").value;
-  const phone = document.getElementById("phone").value;
-  const address = document.getElementById("address").value;
-
-  const key = `coupon_${storeName}_${phone}`;
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const address = document.getElementById("address").value.trim();
   const now = Date.now();
 
-  let logs = JSON.parse(localStorage.getItem(key)) || [];
-  logs = logs.filter(time => now - time < 24 * 60 * 60 * 1000);
+  // 기존 쿠폰 조회 후 active 체크
+  fetch(GAS_URL + "?action=getCoupons")
+    .then(res => res.json())
+    .then(data => {
+      const list = Array.isArray(data)
+        ? data
+        : data.data || data.result || [];
 
-  if (logs.length >= 2) {
-    alert("24시간 내 최대 2회까지만 발급 가능합니다.");
-    return;
-  }
+      const hasActiveCoupon = list.some(c => {
+        const issuedTime = new Date(c.issuedAt).getTime();
+        const isExpired = now - issuedTime > 2 * 60 * 60 * 1000;
 
-  logs.push(now);
-  localStorage.setItem(key, JSON.stringify(logs));
+        return (
+          String(c.storeName).trim() === String(storeName).trim() &&
+          String(c.phone).trim() === String(phone).trim() &&
+          c.status === "active" &&
+          !isExpired
+        );
+      });
 
+      if (hasActiveCoupon) {
+        alert("이미 사용 가능한 쿠폰이 있습니다.");
+        return;
+      }
+
+      issueCoupon(name, phone, address);
+    })
+    .catch(err => {
+      console.error(err);
+      alert("쿠폰 확인 실패");
+    });
+});
+
+/* =========================
+   실제 쿠폰 발급
+========================= */
+function issueCoupon(name, phone, address) {
   fetch(
     GAS_URL +
       "?action=issueCoupon" +
@@ -102,7 +119,7 @@ document.getElementById("couponForm").addEventListener("submit", function (e) {
       "&address=" + encodeURIComponent(address) +
       "&type=" + encodeURIComponent(selectedType)
   )
-    .then(async (res) => {
+    .then(async res => {
       const text = await res.text();
       console.log("RAW RESPONSE:", text);
       return JSON.parse(text);
@@ -116,7 +133,7 @@ document.getElementById("couponForm").addEventListener("submit", function (e) {
       console.error(err);
       alert("쿠폰 발급 실패");
     });
-}); // ✅ submit 함수 정상 종료
+}
 
 /* =========================
    쿠폰 불러오기
@@ -125,9 +142,6 @@ function loadCoupons() {
   fetch(GAS_URL + "?action=getCoupons")
     .then(res => res.json())
     .then(data => {
-
-      console.log("🔥 raw data:", data);
-
       const list = Array.isArray(data)
         ? data
         : data.data || data.result || [];
@@ -155,16 +169,22 @@ function renderCoupons(coupons) {
   }
 
   let html = "";
+  const now = Date.now();
 
   coupons.forEach(c => {
-    const isActive = c.status === "active";
+    const issuedTime = new Date(c.issuedAt).getTime();
+    const isExpiredByTime = now - issuedTime > 2 * 60 * 60 * 1000;
+
+    const isActive = c.status === "active" && !isExpiredByTime;
 
     html += `
       <div class="coupon-card">
         <div class="coupon-top">
           <span class="coupon-name">${c.name || "이름 없음"}</span>
 
-          <span class="coupon-status ${isActive ? "status-active" : "status-expired"}">
+          <span class="coupon-status ${
+            isActive ? "status-active" : "status-expired"
+          }">
             ${isActive ? "🟢 사용가능" : "⚪ 만료"}
           </span>
         </div>
