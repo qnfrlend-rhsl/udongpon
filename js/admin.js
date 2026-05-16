@@ -81,6 +81,7 @@ function renderCoupons(filter) {
   el.innerHTML = list.map(c => {
 
     const isActive = c.status === "active";
+    const isPaid = c.status === "paid";
     const id = String(c.couponId || "");
 
     return `
@@ -89,9 +90,17 @@ function renderCoupons(filter) {
         <div class="row flex-row">
           <b>👤 ${c.name || "-"}</b>
 
-          <div class="status ${isActive ? "active" : "expired"}">
-            ${isActive ? "🟢 사용가능" : "⚪ 완료"}
-          </div>
+          <div class="status ${
+            isActive ? "active" : isPaid ? "paid" : "expired"
+            }">
+            ${
+            isActive
+            ? "🟢 사용가능"
+            : isPaid
+            ? "💳 결제완료"
+            : "⚪ 만료"
+             }
+            </div>
         </div>
 
         <div class="row">📞 ${c.phone || "-"}</div>
@@ -100,7 +109,9 @@ function renderCoupons(filter) {
         <div class="row">🕒 ${new Date(c.issuedAt).toLocaleString("ko-KR")}</div>
 
         <div class="btn-area">
-          <button onclick="payCoupon('${id}')">결제완료</button>
+          ${isActive
+          ? `<button onclick="payCoupon('${id}')">결제완료</button>`
+           : ""}
           <!-- <button onclick="deleteCoupon('${id}')">삭제</button> -->
         </div>
 
