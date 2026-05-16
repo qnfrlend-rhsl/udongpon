@@ -153,7 +153,7 @@ function renderMarkers(storesData) {
 
     marker.bindTooltip(store.storeName, {
     direction: "bottom",
-    offset: [0, 20],
+    offset: [0, 23],
     permanent: false,
     sticky: true
     });
