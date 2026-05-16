@@ -16,8 +16,8 @@ let currentCategory = "전체";
 
 // 🔥 배지 크기 (여기서 조절)
 let badgeSize = 20;
-let badgeOffsetX = -5;
-let badgeOffsetY = -10;
+let badgeOffsetX = 2;
+let badgeOffsetY = -8;
 
 // 📍 지역 좌표
 const dongCoords = {
