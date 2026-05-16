@@ -30,15 +30,19 @@ const dongCoords = {
 };
 
 // 데이터 로드
-fetch(GAS_URL + "?action=getStores")
-  .then(res => res.json())
-  .then(stores => {
-    allStores = stores;
-    renderMarkers(stores);
-  })
-  .catch(err => {
-    console.error(err);
-  });
+Promise.all([
+  fetch(GAS_URL + "?action=getStores").then(res => res.json()),
+  fetch(GAS_URL + "?action=getCoupons").then(res => res.json())
+])
+.then(([stores, coupons]) => {
+
+  allStores = stores;
+  allCoupons = coupons;
+
+  applyFilter(); // ⭐ 여기서 지도 한 번만 그림
+
+})
+.catch(err => console.error(err));
 
 // 상세 이동
 function goToStore(storeName) {
@@ -60,7 +64,7 @@ function searchDong() {
     return;
   }
 
-  applyFilter();
+  setTimeout(() => applyFilter(), 0);
 }
 
 // 🔥 마커 렌더 (쿠폰 오버레이 추가 버전)
@@ -81,7 +85,9 @@ function renderMarkers(storesData) {
     const emoji = status === "active" ? "💖" : "💛";
 
     // 🔥 쿠폰 여부 (핵심 추가)
-    const hasCoupon = allCoupons.some(c => c.storeName === store.storeName);
+    const hasCoupon = allCoupons.some(c =>
+     (c.storeName || "").trim() === (store.storeName || "").trim()
+    );
 
     const icon = L.divIcon({
       className: "custom-pin",
