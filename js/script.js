@@ -30,26 +30,22 @@ const dongCoords = {
 };
 
 // 데이터 로드
-Promise.all([
-  fetch(GAS_URL + "?action=getStores").then(res => res.json()),
-  fetch(GAS_URL + "?action=getCoupons").then(res => res.json())
-])
-.then(([stores, coupons]) => {
-
-  allStores = stores;
-  allCoupons = coupons;
-
-  applyFilter(); // ⭐ 여기서 지도 한 번만 그림
-
-})
-.catch(err => console.error(err));
+fetch(GAS_URL + "?action=getStores")
+  .then(res => res.json())
+  .then(stores => {
+    allStores = stores;
+    renderMarkers(stores);
+  })
+  .catch(err => {
+    console.error(err);
+  });
 
 // 상세 이동
 function goToStore(storeName) {
   window.location.href = `store.html?name=${encodeURIComponent(storeName)}`;
 }
 
-// 동 검색
+// 동 검색 (여기 그대로 OK)
 function searchDong() {
   const dong = document.getElementById("dongInput").value.trim();
 
@@ -67,9 +63,8 @@ function searchDong() {
   applyFilter();
 }
 
-// 🔥 마커 렌더 (쿠폰 오버레이 추가 버전)
+// 마커 렌더
 function renderMarkers(storesData) {
-
   // 기존 마커 제거
   markers.forEach(m => map.removeLayer(m));
   markers = [];
@@ -81,56 +76,28 @@ function renderMarkers(storesData) {
 
     const status = store.status || "pending";
 
-    // 💖 / 💛 상태 아이콘
+    // 상태별 이모지
     const emoji = status === "active" ? "💖" : "💛";
-
-    // 🔥 쿠폰 여부 (핵심 추가)
-    const hasCoupon = allCoupons.some(c =>
-      c.storeId === store.storeId
-    );
 
     const icon = L.divIcon({
       className: "custom-pin",
-      html: `
-        <div style="position: relative; display: inline-block;">
-
-          <!-- 메인 아이콘 -->
-          <span style="
-            font-size: 17px;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.4);
-          ">
-            ${emoji}
-          </span>
-
-          <!-- 🔥 쿠폰 표시 -->
-          ${hasCoupon ? `
-            <div style="
-              position: absolute;
-              top: -10px;
-              right: -10px;
-              font-size: 12px;
-              line-height: 1;
-            ">
-              🔥
-            </div>
-          ` : ""}
-
-        </div>
-      `,
-      iconSize: [20, 20],
-      iconAnchor: [10, 10],
-      popupAnchor: [5, -3]
+      html: `<span style="
+              font-size: 17px; 
+              text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+            ">${emoji}</span>`,
+      iconSize: [15, 15],
+      iconAnchor: [3, 7],  // 핀 밑부분 기준
+      popupAnchor: [+5, -3]
     });
 
     const marker = L.marker([lat, lng], { icon }).addTo(map);
 
     let popupContent = `<b>${store.storeName}</b><br>🎁 ${store.discount || "-" }<br><br>`;
     popupContent += `<button onclick="openWebsite('${store.websiteUrl}')">홈페이지 보기</button>`;
-
     if (status === "active") {
-      popupContent += `<br><br><button onclick="goToStore('${store.storeName}')">쿠폰받기</button>`;
+    popupContent += `<br><br><button onclick="goToStore('${store.storeName}')">쿠폰받기</button>`;
     } else {
-      popupContent += `<br><br><span style="font-size:16px; font-weight:bold; color:red;">등록대기중</span>`;
+    popupContent += `<br><br><span style="font-size:16px; font-weight:bold; color:red;">등록대기중</span>`;
     }
 
     marker.bindPopup(popupContent);
@@ -142,13 +109,13 @@ function renderMarkers(storesData) {
 function filterCategory(category) {
   currentCategory = category;
 
+  // ⭐ 전체 클릭하면 동도 초기화 (핵심)
   if (category === "전체") {
     currentDong = "";
   }
 
   applyFilter();
 }
-
 function openWebsite(url) {
   if (!url) {
     alert("등록된 홈페이지가 없습니다.");
@@ -158,17 +125,19 @@ function openWebsite(url) {
   window.open(url, "_blank");
 }
 
-// 필터
+// ⭐⭐⭐ 핵심 수정 (여기만 바뀜)
 function applyFilter() {
 
   let filtered = allStores;
 
+  // 🔥 동 필터 (빈 값이면 무시)
   if (currentDong && currentDong !== "") {
     filtered = filtered.filter(store =>
       (store.dong || "").includes(currentDong)
     );
   }
 
+  // 🔥 카테고리 필터
   if (currentCategory && currentCategory !== "전체") {
     filtered = filtered.filter(store =>
       store.category === currentCategory
@@ -178,7 +147,6 @@ function applyFilter() {
   renderMarkers(filtered);
 }
 
-// 엔터 검색
 document.getElementById("dongInput").addEventListener("keypress", function(e) {
   if (e.key === "Enter") {
     searchDong();
