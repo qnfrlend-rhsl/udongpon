@@ -236,6 +236,9 @@ function openCouponModal() {
 
 function closeCouponModal() {
   document.getElementById("couponModal").style.display = "none";
+
+  document.getElementById("couponPhone").value = "";
+  document.getElementById("couponResult").innerHTML = "";
 }
 
 async function searchCoupons() {
