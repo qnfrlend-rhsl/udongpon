@@ -257,14 +257,33 @@ async function searchCoupons() {
       html = "<p>발급된 쿠폰이 없습니다.</p>";
     } else {
       coupons.forEach(coupon => {
-        html += `
-          <div class="coupon-card">
-            <b>${coupon.storeName}</b><br>
-            상태: ${coupon.status}<br>
-            만료: ${coupon.expiresAt}
-          </div>
-        `;
-      });
+  const isActive = coupon.status === "active";
+  const isPaid = coupon.status === "paid";
+
+  html += `
+    <div class="coupon-card">
+
+      <b>🏪 ${coupon.storeName || "-"}</b><br><br>
+
+      <div class="status ${
+        isActive ? "active" : isPaid ? "paid" : "expired"
+      }">
+        ${
+          isActive
+            ? "🟢 사용가능"
+            : isPaid
+            ? "💳 결제완료"
+            : "⚪ 만료"
+        }
+      </div>
+
+      <p>📞 ${coupon.phone || "-"}</p>
+      <p>🕒 발급: ${coupon.issuedAt || "-"}</p>
+      <p>⌛ 만료: ${coupon.expiresAt || "-"}</p>
+
+    </div>
+  `;
+});
     }
 
     document.getElementById("couponResult").innerHTML = html;
