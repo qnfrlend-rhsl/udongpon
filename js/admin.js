@@ -195,7 +195,7 @@ function setStoreStatus(storeId, mode) {
     .then(res => res.json())
     .then(data => {
       if(data.success) {
-        alert(mode === "active" ? "등록 완료" : "등록대기 처리 완료");
+        alert("등록되었습니다");
         loadStores(); // 리스트 갱신
       } else {
         alert("상태 변경 실패");
