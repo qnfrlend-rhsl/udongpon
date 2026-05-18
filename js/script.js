@@ -250,7 +250,7 @@ async function searchCoupons() {
 
   try {
     const res = await fetch(
-        `${GAS_URL}?action=getCoupons&phone=${phone}&t=${Date.now()}`,
+        `${GAS_URL}?action=getCoupons&phone=${encodeURIComponent(phone)}&t=${Date.now()}`,
         {
           cache: "no-store"
         }
