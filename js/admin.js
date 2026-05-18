@@ -366,13 +366,12 @@ document.getElementById("storeFilter").addEventListener("change", (e) => {
 ========================= */
 window.addEventListener("load", () => {
   updateAdminButton();
-  loadAdminCoupons();
-  loadStores();
+  loadStores();          // 1회
+  loadAdminCoupons();    // 1회 즉시 실행
 
   setInterval(() => {
-    loadAdminCoupons();
-    loadStores();
-  }, 10000);
+    loadAdminCoupons();  // 60초마다 갱신
+  }, 60000);
 });
 
 function searchStore() {
