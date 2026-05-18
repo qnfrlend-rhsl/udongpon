@@ -278,7 +278,7 @@ async function searchCoupons() {
                   isActive
                     ? "🟢 사용가능"
                     : isPaid
-                    ? "💳 결제대기"
+                    ? "💳 결제완료"
                     : "⚪ 만료"
                 }
               </div>
