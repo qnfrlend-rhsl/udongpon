@@ -248,8 +248,11 @@ async function searchCoupons() {
 
   try {
     const res = await fetch(
-      `${GAS_URL}?action=getCoupons&phone=${phone}`
-    );
+        `${GAS_URL}?action=getCoupons&phone=${phone}&t=${Date.now()}`,
+        {
+          cache: "no-store"
+        }
+      );
 
     const coupons = await res.json();
 
