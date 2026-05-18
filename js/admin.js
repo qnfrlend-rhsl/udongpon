@@ -250,7 +250,7 @@ async function addStore(status = 'active') {
   .then(res => res.json())
   .then(data => {
     if (data.success) {
-      alert("등록 완료 ❤️");
+      showMsg("등록 완료 ❤️");
       loadStores();
     } else {
       alert("등록 실패");
