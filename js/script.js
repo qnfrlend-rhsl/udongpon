@@ -241,6 +241,8 @@ function closeCouponModal() {
 async function searchCoupons() {
   const phone = document.getElementById("couponPhone").value.trim();
 
+  document.getElementById("couponResult").innerHTML = "";
+
   if (!phone) {
     alert("전화번호를 입력하세요.");
     return;
