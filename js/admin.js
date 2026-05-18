@@ -431,5 +431,5 @@ function showMsg(text) {
 
   setTimeout(() => {
     msg.remove();
-  }, 1500);
+  }, 500);
 }
