@@ -282,8 +282,13 @@ async function searchCoupons() {
             </div>
 
             <div class="row">📞 ${coupon.phone || "-"}</div>
-            <div class="row">🕒 ${coupon.issuedAt || "-"}</div>
-            <div class="row">⌛ ${coupon.expiresAt || "-"}</div>
+            <div class="row">
+            🕒 ${coupon.issuedAt ? new Date(coupon.issuedAt).toLocaleString("ko-KR") : "-"}
+            </div>
+
+            <div class="row">
+            ⌛ ${coupon.expiresAt ? new Date(coupon.expiresAt).toLocaleString("ko-KR") : "-"}
+            </div>
 
           </div>
         `;
