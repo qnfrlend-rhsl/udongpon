@@ -1,4 +1,4 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbw5vXb9Yue650Fj_vXt6jskm5mTXde7hJePp6QJqSUl0-U3i_zPCNtMJNOvS4x6VSn8GQ/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbyPE3waJLoFri5DBAdpabY7i3swjA6HwAg8qYPHlVNvUVQGbAp9KvldiMMkUI5mcETcNw/exec";
 
 let allCoupons = [];
 let allStores = [];
