@@ -227,3 +227,50 @@ document.getElementById("dongInput").addEventListener("keypress", function(e) {
     searchDong();
   }
 });
+
+function openCouponModal() {
+  document.getElementById("couponModal").style.display = "flex";
+}
+
+function closeCouponModal() {
+  document.getElementById("couponModal").style.display = "none";
+}
+
+async function searchCoupons() {
+  const phone = document.getElementById("couponPhone").value.trim();
+
+  if (!phone) {
+    alert("전화번호를 입력하세요.");
+    return;
+  }
+
+  try {
+    const res = await fetch(
+      `${GAS_URL}?action=getCoupons&phone=${phone}`
+    );
+
+    const coupons = await res.json();
+
+    let html = "";
+
+    if (!coupons.length) {
+      html = "<p>발급된 쿠폰이 없습니다.</p>";
+    } else {
+      coupons.forEach(coupon => {
+        html += `
+          <div class="coupon-card">
+            <b>${coupon.storeName}</b><br>
+            상태: ${coupon.status}<br>
+            만료: ${coupon.expiresAt}
+          </div>
+        `;
+      });
+    }
+
+    document.getElementById("couponResult").innerHTML = html;
+
+  } catch (err) {
+    console.error(err);
+    alert("쿠폰 조회 실패");
+  }
+}
