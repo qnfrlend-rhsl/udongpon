@@ -228,6 +228,8 @@ document.getElementById("dongInput").addEventListener("keypress", function(e) {
   }
 });
 
+
+
 function openCouponModal() {
   document.getElementById("couponModal").style.display = "flex";
 }
@@ -261,25 +263,27 @@ async function searchCoupons() {
   const isPaid = coupon.status === "paid";
 
   html += `
-    <div class="coupon-card">
+    <div class="card ${isActive ? "" : "expired"}">
 
-      <b>🏪 ${coupon.storeName || "-"}</b><br><br>
+      <div class="row flex-row">
+        <b>🏪 ${coupon.storeName || "-"}</b>
 
-      <div class="status ${
-        isActive ? "active" : isPaid ? "paid" : "expired"
-      }">
-        ${
-          isActive
-            ? "🟢 사용가능"
-            : isPaid
-            ? "💳 결제완료"
-            : "⚪ 만료"
-        }
+        <div class="status ${
+          isActive ? "active" : isPaid ? "paid" : "expired"
+        }">
+          ${
+            isActive
+              ? "🟢 사용가능"
+              : isPaid
+              ? "💳 결제완료"
+              : "⚪ 만료"
+          }
+        </div>
       </div>
 
-      <p>📞 ${coupon.phone || "-"}</p>
-      <p>🕒 발급: ${coupon.issuedAt || "-"}</p>
-      <p>⌛ 만료: ${coupon.expiresAt || "-"}</p>
+      <div class="row">📞 ${coupon.phone || "-"}</div>
+      <div class="row">🕒 ${coupon.issuedAt || "-"}</div>
+      <div class="row">⌛ ${coupon.expiresAt || "-"}</div>
 
     </div>
   `;
