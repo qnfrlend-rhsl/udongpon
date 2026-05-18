@@ -412,3 +412,24 @@ function searchStore() {
     `;
   }).join("");
 }
+
+function showMsg(text) {
+  const msg = document.createElement("div");
+  msg.innerText = text;
+
+  msg.style.position = "fixed";
+  msg.style.bottom = "20px";
+  msg.style.left = "50%";
+  msg.style.transform = "translateX(-50%)";
+  msg.style.background = "#333";
+  msg.style.color = "#fff";
+  msg.style.padding = "10px 20px";
+  msg.style.borderRadius = "8px";
+  msg.style.zIndex = "9999";
+
+  document.body.appendChild(msg);
+
+  setTimeout(() => {
+    msg.remove();
+  }, 1500);
+}
