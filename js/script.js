@@ -259,35 +259,35 @@ async function searchCoupons() {
       html = "<p>발급된 쿠폰이 없습니다.</p>";
     } else {
       coupons.forEach(coupon => {
-  const isActive = coupon.status === "active";
-  const isPaid = coupon.status === "paid";
+        const isActive = coupon.status === "active";
+        const isPaid = coupon.status === "paid";
 
-  html += `
-    <div class="card ${isActive ? "" : "expired"}">
+        html += `
+          <div class="my-coupon-card ${isActive ? "" : "expired"}">
 
-      <div class="row flex-row">
-        <b>🏪 ${coupon.storeName || "-"}</b>
+            <div class="row flex-row">
+              <b>🏪 ${coupon.storeName || "-"}</b>
 
-        <div class="status ${
-          isActive ? "active" : isPaid ? "paid" : "expired"
-        }">
-          ${
-            isActive
-              ? "🟢 사용가능"
-              : isPaid
-              ? "💳 결제완료"
-              : "⚪ 만료"
-          }
-        </div>
-      </div>
+              <div class="status ${
+                isActive ? "active" : isPaid ? "paid" : "expired"
+              }">
+                ${
+                  isActive
+                    ? "🟢 사용가능"
+                    : isPaid
+                    ? "💳 결제대기"
+                    : "⚪ 만료"
+                }
+              </div>
+            </div>
 
-      <div class="row">📞 ${coupon.phone || "-"}</div>
-      <div class="row">🕒 ${coupon.issuedAt || "-"}</div>
-      <div class="row">⌛ ${coupon.expiresAt || "-"}</div>
+            <div class="row">📞 ${coupon.phone || "-"}</div>
+            <div class="row">🕒 ${coupon.issuedAt || "-"}</div>
+            <div class="row">⌛ ${coupon.expiresAt || "-"}</div>
 
-    </div>
-  `;
-});
+          </div>
+        `;
+      });
     }
 
     document.getElementById("couponResult").innerHTML = html;
@@ -297,3 +297,9 @@ async function searchCoupons() {
     alert("쿠폰 조회 실패");
   }
 }
+
+document.getElementById("couponPhone").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    searchCoupons();
+  }
+});
