@@ -141,92 +141,116 @@ function renderMarkers(storesData) {
   markers.forEach(m => map.removeLayer(m));
   markers = [];
 
-  (storesData || []).forEach(store => {
+  // 🔥 active 먼저, pending 나중에 (레이어 우선순위)
+  const sorted = [...(storesData || [])].sort((a, b) => {
+    if (a.status === "active" && b.status !== "active") return 1;
+    if (a.status !== "active" && b.status === "active") return -1;
+    return 0;
+  });
+
+  sorted.forEach(store => {
 
     const lat = Number(store.lat);
     const lng = Number(store.lng);
     if (!lat || !lng) return;
 
-    const status = store.status || "pending";
-    const emoji = status === "active" ? "💖" : "💛";
+    const isActive = store.status === "active";
 
-    // 🔥 배지 조건
+    // =========================
+    // 🎨 상태별 스타일
+    // =========================
+    const iconEmoji = isActive ? "💖" : "⭕";
+
+    const nameColor = isActive ? "#e74c3c" : "#b5b5b5";
+    const nameSize = isActive ? 11 : 9;
+    const opacity = isActive ? 1 : 0.75;
+
     const showBadge =
-      status === "active" &&
+      isActive &&
       store.discount &&
       store.discount.trim() !== "";
 
     const icon = L.divIcon({
       className: "custom-pin",
+      iconSize: [20, 30],
+      iconAnchor: [10, 15],
+
       html: `
-        <div style="position:relative;display:inline-block;">
+        <div style="
+          position:relative;
+          display:flex;
+          flex-direction:column;
+          align-items:center;
+          opacity:${opacity};
+        ">
 
-          <!-- 💖💛 하트 -->
-          <span style="
-            font-size:17px;
-            text-shadow:0 1px 3px rgba(0,0,0,0.4);
+          <!-- 🔥 아이콘 -->
+          <div style="font-size:${isActive ? 17 : 12}px;">
+            ${iconEmoji}
+          </div>
+
+          <!-- 🏪 매장명 (항상 표시) -->
+          <div style="
+            font-size:${nameSize}px;
+            color:${nameColor};
+            margin-top:2px;
+            white-space:nowrap;
+            text-shadow:0 1px 2px rgba(0,0,0,0.15);
           ">
-            ${emoji}
-          </span>
+            ${store.storeName}
+          </div>
 
-          <!-- 🔥 배지 -->
+          <!-- 🎁 배지 (active만) -->
           ${showBadge ? `
-  <div class="badge-wrap"
-       style="
-         position:absolute;
-         top:${badgeOffsetY - badgeSize * 0.4}px;
-         left:${badgeOffsetX}px;
-       ">
-
-    <div class="badge-icon"
-      style="
-        width:${badgeSize}px;
-        height:${badgeSize}px;
-        background: none;
-        color:white;
-        font-size:${badgeSize * 0.85}px;
-        border: none;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        box-shadow:none;
-      ">
-      🎁
-    </div>
-
-    <div class="badge-tooltip">
-      ${store.discount || ""}
-    </div>
-
-  </div>
-` : ""}
+            <div style="
+              position:absolute;
+              top:-8px;
+              right:-6px;
+              font-size:12px;
+            ">
+              🎁
+            </div>
+          ` : ""}
 
         </div>
-      `,
-      iconSize: [20, 20],
-      iconAnchor: [10, 10],
-      popupAnchor: [5, -3]
+      `
     });
 
-    const marker = L.marker([lat, lng], { icon }).addTo(map);
+    const marker = L.marker([lat, lng], {
+      icon,
+      zIndexOffset: isActive ? 1000 : 100
+    }).addTo(map);
 
-    marker.bindTooltip(store.storeName, {
-    direction: "bottom",
-    offset: [0, 23],
-    permanent: false,
-    sticky: true
-    });
+    // =========================
+    // tooltip 제거 (이제 항상 보이니까 필요 없음)
+    // =========================
 
-    let popupContent = `<b>${store.storeName}</b><br>🎁 ${store.discount || "-" }<br><br>`;
-    popupContent += `<button onclick="openWebsite('${store.websiteUrl || ""}')">홈페이지 보기</button>`;
+    let popupContent = `
+      <b>${store.storeName}</b><br>
+      🎁 ${store.discount || "-"}<br><br>
+      <button onclick="openWebsite('${store.websiteUrl || ""}')">
+        홈페이지 보기
+      </button>
+    `;
 
-    if (status === "active") {
-      popupContent += `<br><br><button onclick="goToStore('${store.storeName}')">쿠폰받기</button>`;
+    if (isActive) {
+      popupContent += `
+        <br><br>
+        <button onclick="goToStore('${store.storeName}')">
+          쿠폰받기
+        </button>
+      `;
     } else {
-      popupContent += `<br><br><span style="font-size:16px;font-weight:bold;color:red;">등록대기중</span>`;
+      popupContent += `
+        <br><br>
+        <span style="color:#999;font-weight:bold;">
+          등록대기중
+        </span>
+      `;
     }
 
     marker.bindPopup(popupContent);
+
     markers.push(marker);
   });
 }
