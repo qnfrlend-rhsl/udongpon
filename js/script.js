@@ -175,7 +175,7 @@ function renderMarkers(storesData) {
         font-size:${status === "active" ? 10 : 7}px;
         color:${status === "active" ? "#a11000" : "#000000"};
         white-space:nowrap;
-        margin-top:-2px;
+        margin-top:-5px;
       ">
         ${store.storeName}
       </div>
