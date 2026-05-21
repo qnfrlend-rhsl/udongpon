@@ -256,6 +256,11 @@ function openWebsite(url) {
 // 필터
 function applyFilter() {
 
+  if (!map._loaded) {
+  renderMarkers(allStores);
+  return;
+}
+
   let filtered = allStores || [];
 
   if (currentDong) {
