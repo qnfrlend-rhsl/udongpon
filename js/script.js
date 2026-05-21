@@ -11,8 +11,9 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 let markers = [];
 let allStores = [];
 let allCoupons = [];
-let currentDong = "후평3동";
+let currentDong = "";
 let currentCategory = "전체";
+let isInitialLoad = true;
 
 // 🔥 배지 크기 (여기서 조절)
 let badgeSize = 20;
@@ -256,11 +257,11 @@ function applyFilter() {
 
   let filtered = allStores || [];
 
-  if (currentDong) {
-    filtered = filtered.filter(store =>
-      (store.dong || "").includes(currentDong)
-    );
-  }
+  if (currentDong && currentDong !== "전체") {
+  filtered = filtered.filter(store =>
+    (store.dong || "").includes(currentDong)
+  );
+}
 
   if (currentCategory && currentCategory !== "전체") {
     filtered = filtered.filter(store =>
