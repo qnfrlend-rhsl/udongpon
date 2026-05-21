@@ -157,56 +157,67 @@ function renderMarkers(storesData) {
       store.discount.trim() !== "";
 
     const icon = L.divIcon({
-      className: "custom-pin",
-      html: `
-        <div style="position:relative;display:inline-block;">
+  className: "custom-pin",
+  html: `
+    <div style="position:relative;display:inline-block;text-align:center;">
 
-          <!-- 💖💛 하트 -->
-          <span style="
-            font-size:17px;
-            text-shadow:0 1px 3px rgba(0,0,0,0.4);
-          ">
-            ${emoji}
-          </span>
-
-          <!-- 🔥 배지 -->
-          ${showBadge ? `
-  <div class="badge-wrap"
-       style="
-         position:absolute;
-         top:${badgeOffsetY - badgeSize * 0.4}px;
-         left:${badgeOffsetX}px;
-       ">
-
-    <div class="badge-icon"
-      style="
-        width:${badgeSize}px;
-        height:${badgeSize}px;
-        background: none;
-        color:white;
-        font-size:${badgeSize * 0.85}px;
-        border: none;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        box-shadow:none;
+      <!-- 💖💛 하트 -->
+      <span style="
+        font-size:17px;
+        text-shadow:0 1px 3px rgba(0,0,0,0.4);
+        display:block;
       ">
-      🎁
-    </div>
+        ${emoji}
+      </span>
 
-    <div class="badge-tooltip">
-      ${store.discount || ""}
-    </div>
+      <!-- 🏪 매장 이름 (🔥 이것만 추가) -->
+      <div style="
+        font-size:${status === "active" ? 11 : 9}px;
+        color:${status === "active" ? "#e74c3c" : "#b5b5b5"};
+        white-space:nowrap;
+        margin-top:2px;
+      ">
+        ${store.storeName}
+      </div>
 
-  </div>
-` : ""}
+      <!-- 🔥 배지 (기존 그대로 유지) -->
+      ${showBadge ? `
+        <div class="badge-wrap"
+             style="
+               position:absolute;
+               top:${badgeOffsetY - badgeSize * 0.4}px;
+               left:${badgeOffsetX}px;
+             ">
+
+          <div class="badge-icon"
+            style="
+              width:${badgeSize}px;
+              height:${badgeSize}px;
+              background: none;
+              color:white;
+              font-size:${badgeSize * 0.85}px;
+              border: none;
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              box-shadow:none;
+            ">
+            🎁
+          </div>
+
+          <div class="badge-tooltip">
+            ${store.discount || ""}
+          </div>
 
         </div>
-      `,
-      iconSize: [20, 20],
-      iconAnchor: [10, 10],
-      popupAnchor: [5, -3]
-    });
+      ` : ""}
+
+    </div>
+  `,
+  iconSize: [20, 28],
+  iconAnchor: [10, 14],
+  popupAnchor: [5, -3]
+});
 
     const marker = L.marker([lat, lng], { icon }).addTo(map);
 
