@@ -36,7 +36,7 @@ body {
 }
 
 .search-section button {
-  padding: 12px 18px;
+  padding: 12px 24px;
   border: none;
   background: #ff6b35;
   color: white;
@@ -55,7 +55,7 @@ body {
 .category-section button {
   padding: 6px 11px;
 
-  font-size: 13px;
+  font-size: 11px;
 
   border: none;
   border-radius: 14px;
