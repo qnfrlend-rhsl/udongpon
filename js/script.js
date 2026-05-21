@@ -172,10 +172,10 @@ function renderMarkers(storesData) {
 
       <!-- 🏪 매장 이름 (🔥 이것만 추가) -->
       <div style="
-        font-size:${status === "active" ? 11 : 8}px;
-        color:${status === "active" ? "#8f0e00" : "#333232"};
+        font-size:${status === "active" ? 11 : 9}px;
+        color:${status === "active" ? "#e21802" : "#252424"};
         white-space:nowrap;
-        margin-top:-5px;
+        margin-top:+13px;
       ">
         ${store.storeName}
       </div>
