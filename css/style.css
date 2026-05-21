@@ -382,9 +382,26 @@ form input {
 }
 
 /* 자동완성 */
+/* 검색영역 */
+.search-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 15px;
+}
+
+/* 검색창 영역 */
 .search-wrap {
   position: relative;
-  width: 100;
+  flex: 1;
+}
+
+/* 검색 input */
+.search-section input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  box-sizing: border-box;
 }
 
 .autocomplete-list {
