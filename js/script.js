@@ -5,11 +5,13 @@ const map = L.map('map', {
   scrollWheelZoom: true,
   maxZoom: 22,
   minZoom: 12
-}).setView([37.880368, 127.738029], 17);
+}).setView([37.880368, 127.738029], 15);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; OpenStreetMap contributors',
-  maxZoom: 22
+  maxZoom: 22,
+  updateWhenIdle: true,
+  keepBuffer: 2
 }).addTo(map);
 
 // 마커 저장
