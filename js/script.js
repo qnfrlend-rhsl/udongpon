@@ -89,11 +89,9 @@ fetch(GAS_URL + "?action=getStores")
   .then(stores => {
   allStores = stores || [];
 
-  map.whenReady(() => {
-    setTimeout(() => {
-      applyFilter();
-    }, 0);
-  });
+  setTimeout(() => {
+    applyFilter();
+  }, 0);
 })
   .catch(err => console.error("STORE ERROR:", err));
 
