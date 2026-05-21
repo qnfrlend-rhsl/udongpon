@@ -36,7 +36,7 @@ body {
 }
 
 .search-section button {
-  padding: 12px 24px;
+  padding: 12px 16px;
   border: none;
   background: #ff6b35;
   color: white;
@@ -384,7 +384,7 @@ form input {
 /* 자동완성 */
 .search-wrap {
   position: relative;
-  width: 1;
+  width: 100;
 }
 
 .autocomplete-list {
