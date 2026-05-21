@@ -2,12 +2,13 @@ const GAS_URL = "https://script.google.com/macros/s/AKfycbwzFCQqPEHQMLGtE-ANYxzY
 
 // 지도 초기화
 const map = L.map('map', {
-  minZoom: 13,
-  maxZoom: 19,
+  minZoom: 6,
+  maxZoom: 19
 }).setView([37.880368, 127.738029], 16);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; OpenStreetMap contributors'
+  attribution: '&copy; OpenStreetMap contributors',
+  maxZoom: 19
 }).addTo(map);
 
 // 마커 저장
