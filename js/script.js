@@ -4,7 +4,7 @@ const GAS_URL = "https://script.google.com/macros/s/AKfycbwzFCQqPEHQMLGtE-ANYxzY
 const map = L.map('map', {
   minZoom: 6,
   maxZoom: 19
-}).setView([37.885192, 127.745077], 18);
+}).setView([37.885192, 127.745077], 17);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; OpenStreetMap contributors',
