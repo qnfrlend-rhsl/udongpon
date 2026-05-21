@@ -186,7 +186,7 @@ function renderMarkers(storesData) {
              style="
                position:absolute;
                top:${badgeOffsetY - badgeSize * 0.4}px;
-               left:${badgeOffsetX}px;
+               left:${badgeOffsetX+10}px;
              ">
 
           <div class="badge-icon"
