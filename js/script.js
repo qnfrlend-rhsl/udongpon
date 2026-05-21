@@ -268,18 +268,23 @@ function applyFilter() {
     );
   }
 
+  // 🔥 핵심 수정
   const bounds = map.getBounds();
 
-  if (bounds && bounds._southWest) {
-    filtered = filtered.filter(store => {
-      const lat = Number(store.lat);
-      const lng = Number(store.lng);
+// 🔥 bounds가 아직 초기 상태면 필터 건너뛰기
+if (!bounds || bounds._southWest === undefined) {
+  renderMarkers(filtered);
+  return;
+}
 
-      if (!lat || !lng) return false;
+filtered = filtered.filter(store => {
+  const lat = Number(store.lat);
+  const lng = Number(store.lng);
 
-      return bounds.contains([lat, lng]);
-    });
-  }
+  if (!lat || !lng) return false;
+
+  return bounds.contains([lat, lng]);
+});
 
   renderMarkers(filtered);
 }
