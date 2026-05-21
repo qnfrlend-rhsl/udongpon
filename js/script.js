@@ -254,11 +254,6 @@ function openWebsite(url) {
 // 필터
 function applyFilter() {
 
-  if (!map._loaded) {
-  renderMarkers(allStores);
-  return;
-}
-
   let filtered = allStores || [];
 
   if (currentDong) {
@@ -273,29 +268,18 @@ function applyFilter() {
     );
   }
 
-  // 🔥 핵심 수정
   const bounds = map.getBounds();
 
-// 🔥 bounds가 아직 초기 상태면 필터 건너뛰기
-if (!bounds || bounds._southWest === undefined) {
-  renderMarkers(filtered);
-  return;
-}
+  if (bounds && bounds._southWest) {
+    filtered = filtered.filter(store => {
+      const lat = Number(store.lat);
+      const lng = Number(store.lng);
 
-filtered = filtered.filter(store => {
-  const lat = Number(store.lat);
-  const lng = Number(store.lng);
+      if (!lat || !lng) return false;
 
-  if (!lat || !lng) return false;
-
-  return bounds.contains([lat, lng]);
-});
-
-  filtered = filtered.filter(store => {
-    const lat = Number(store.lat);
-    const lng = Number(store.lng);
-    return bounds.contains([lat, lng]);
-  });
+      return bounds.contains([lat, lng]);
+    });
+  }
 
   renderMarkers(filtered);
 }
