@@ -9,7 +9,7 @@ const map = L.map('map', {
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; OpenStreetMap contributors',
-  maxZoom: 19,
+  maxZoom: 10,
   updateWhenIdle: true,
   keepBuffer: 2
 }).addTo(map);
