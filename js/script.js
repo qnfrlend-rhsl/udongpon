@@ -29,7 +29,7 @@ const dongCoords = {
   "후평동": [37.882824, 127.748288],
   "효자동": [37.8690, 127.7350],
   "석사동": [37.8602, 127.7475],
-  "퇴계동": [37.8510, 127.7580],
+  "퇴계동": [37.864283, 127.726027],
   "강남동": [37.8730, 127.7050],
   "신사우동": [37.9000, 127.7500],
   "신동": [37.932957, 127.727934],
@@ -87,9 +87,12 @@ function getRecentSearches() {
 fetch(GAS_URL + "?action=getStores")
   .then(res => res.json())
   .then(stores => {
-    allStores = stores || [];
-    renderMarkers(allStores);
-  })
+  allStores = stores || [];
+
+  setTimeout(() => {
+    applyFilter();
+  }, 300);
+})
   .catch(err => console.error("STORE ERROR:", err));
 
 // 상세 이동
