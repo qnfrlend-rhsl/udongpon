@@ -163,17 +163,17 @@ function renderMarkers(storesData) {
 
       <!-- 💖💛 하트 -->
       <span style="
-        font-size:17px;
-        text-shadow:0 1px 3px rgba(0,0,0,0.4);
-        display:block;
-      ">
-        ${emoji}
-      </span>
+  font-size:${status === "active" ? 17 : 12}px;
+  text-shadow:0 1px 3px rgba(0,0,0,0.4);
+  display:block;
+">
+  ${emoji}
+</span>
 
       <!-- 🏪 매장 이름 (🔥 이것만 추가) -->
       <div style="
         font-size:${status === "active" ? 10 : 7}px;
-        color:${status === "active" ? "#e21802" : "#000000"};
+        color:${status === "active" ? "#a11000" : "#000000"};
         white-space:nowrap;
         margin-top:-5px;
       ">
@@ -186,7 +186,7 @@ function renderMarkers(storesData) {
              style="
                position:absolute;
                top:${badgeOffsetY - badgeSize * 0.4}px;
-               left:${badgeOffsetX + 13}px;
+               left:${badgeOffsetX + 12}px;
              ">
 
           <div class="badge-icon"
