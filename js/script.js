@@ -54,6 +54,35 @@ const dongCoords = {
   "만천리": [37.877434, 127.771491]
 };
 
+// 최근 검색 저장
+function saveRecentSearch(keyword) {
+
+  let recent = JSON.parse(
+    localStorage.getItem("recentSearches") || "[]"
+  );
+
+  // 중복 제거
+  recent = recent.filter(v => v !== keyword);
+
+  // 앞에 추가
+  recent.unshift(keyword);
+
+  // 최대 5개
+  recent = recent.slice(0, 5);
+
+  localStorage.setItem(
+    "recentSearches",
+    JSON.stringify(recent)
+  );
+}
+
+// 최근 검색 가져오기
+function getRecentSearches() {
+  return JSON.parse(
+    localStorage.getItem("recentSearches") || "[]"
+  );
+}
+
 // 데이터 로드
 fetch(GAS_URL + "?action=getStores")
   .then(res => res.json())
@@ -70,20 +99,36 @@ function goToStore(storeName) {
 
 // 지역 검색
 function searchDong() {
-  const dong = document.getElementById("dongInput").value.trim();
 
-  if (!dong) return;
+  const input = document.getElementById("dongInput")
+    .value
+    .trim()
+    .toLowerCase();
 
-  currentDong = dong;
+  if (!input) return;
 
-  if (dongCoords[dong]) {
-    map.setView(dongCoords[dong], 15, { animate: true });
-  } else {
-    alert("해당 지역 좌표가 없습니다.");
+  // 동 이름 목록 가져오기
+  const dongList = Object.keys(dongCoords);
+
+  // 부분 일치 찾기
+  const matchedDong = dongList.find(dong =>
+    input.includes(dong.toLowerCase()) ||
+    dong.toLowerCase().includes(input)
+  );
+
+  if (!matchedDong) {
+    alert("해당 지역을 찾을 수 없습니다.");
     return;
   }
 
+  currentDong = matchedDong;
+
+  map.setView(dongCoords[matchedDong], 15, {
+    animate: true
+  });
+
   applyFilter();
+  saveRecentSearch(input);
 }
 
 // 🔥 마커 렌더 (배지 추가 버전)
@@ -316,5 +361,96 @@ async function searchCoupons() {
 document.getElementById("couponPhone").addEventListener("keypress", function(e) {
   if (e.key === "Enter") {
     searchCoupons();
+  }
+});
+
+const dongInput = document.getElementById("dongInput");
+const autocompleteList = document.getElementById("autocompleteList");
+
+// 입력 시 자동완성
+dongInput.addEventListener("input", function() {
+
+  const input = this.value.trim().toLowerCase();
+
+  autocompleteList.innerHTML = "";
+
+  // 입력 없으면 최근 검색 표시
+  if (!input) {
+
+    const recent = getRecentSearches();
+
+    if (!recent.length) {
+      autocompleteList.style.display = "none";
+      return;
+    }
+
+    autocompleteList.innerHTML += `
+      <div class="recent-label">
+        최근 검색
+      </div>
+    `;
+
+    recent.forEach(item => {
+
+      autocompleteList.innerHTML += `
+        <div class="autocomplete-item">
+          ${item}
+        </div>
+      `;
+    });
+
+    autocompleteList.style.display = "block";
+
+    return;
+  }
+
+  // 동 목록
+  const dongList = Object.keys(dongCoords);
+
+  // 검색
+  const matched = dongList.filter(dong =>
+    dong.toLowerCase().includes(input) ||
+    input.includes(dong.toLowerCase())
+  );
+
+  if (!matched.length) {
+    autocompleteList.style.display = "none";
+    return;
+  }
+
+  matched.slice(0, 8).forEach(dong => {
+
+    autocompleteList.innerHTML += `
+      <div class="autocomplete-item">
+        ${dong}
+      </div>
+    `;
+  });
+
+  autocompleteList.style.display = "block";
+});
+
+// 클릭 선택
+autocompleteList.addEventListener("click", function(e) {
+
+  if (
+    !e.target.classList.contains("autocomplete-item") ||
+    e.target.classList.contains("recent-label")
+  ) return;
+
+  const text = e.target.innerText;
+
+  dongInput.value = text;
+
+  autocompleteList.style.display = "none";
+
+  searchDong();
+});
+
+// 바깥 클릭 시 닫기
+document.addEventListener("click", function(e) {
+
+  if (!e.target.closest(".search-wrap")) {
+    autocompleteList.style.display = "none";
   }
 });

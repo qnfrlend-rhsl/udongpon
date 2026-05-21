@@ -31,9 +31,22 @@
 
   <!-- 검색 -->
   <section class="search-section">
-    <input type="text" id="dongInput" placeholder="동 이름 검색 (예: 서울시 역삼동)">
-    <button onclick="searchDong()">검색</button>
-  </section>
+
+  <div class="search-wrap">
+
+    <input 
+      type="text" 
+      id="dongInput" 
+      placeholder="지역 검색 (예: 후평동, 춘천시 후평동)"
+      autocomplete="off">
+
+    <div id="autocompleteList" class="autocomplete-list"></div>
+
+  </div>
+
+  <button onclick="searchDong()">검색</button>
+
+</section>
 
   <!-- 내 쿠폰 -->
   <section class="my-coupon-section">
