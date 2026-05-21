@@ -89,9 +89,11 @@ fetch(GAS_URL + "?action=getStores")
   .then(stores => {
   allStores = stores || [];
 
-  setTimeout(() => {
-    applyFilter();
-  }, 300);
+  map.whenReady(() => {
+    setTimeout(() => {
+      applyFilter();
+    }, 0);
+  });
 })
   .catch(err => console.error("STORE ERROR:", err));
 
@@ -256,30 +258,33 @@ function applyFilter() {
 
   let filtered = allStores || [];
 
-  // 지역 필터
   if (currentDong) {
     filtered = filtered.filter(store =>
       (store.dong || "").includes(currentDong)
     );
   }
 
-  // 카테고리 필터
   if (currentCategory && currentCategory !== "전체") {
     filtered = filtered.filter(store =>
       store.category === currentCategory
     );
   }
 
-  // 🔥 현재 화면 안의 매장만
+  // 🔥 핵심 수정
   const bounds = map.getBounds();
 
-  filtered = filtered.filter(store => {
+filtered = filtered.filter(store => {
+  const lat = Number(store.lat);
+  const lng = Number(store.lng);
 
+  if (!lat || !lng) return false;
+
+  return bounds.contains([lat, lng]);
+});
+
+  filtered = filtered.filter(store => {
     const lat = Number(store.lat);
     const lng = Number(store.lng);
-
-    if (!lat || !lng) return false;
-
     return bounds.contains([lat, lng]);
   });
 
@@ -473,4 +478,6 @@ document.addEventListener("click", function(e) {
   }
 });
 
-map.on("moveend", applyFilter);
+map.on("moveend", () => {
+  setTimeout(applyFilter, 50);
+});
