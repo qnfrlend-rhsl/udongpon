@@ -18,7 +18,7 @@ let isInitialLoad = true;
 // 🔥 배지 크기 (여기서 조절)
 let badgeSize = 20;
 let badgeOffsetX = 2;
-let badgeOffsetY = -5;
+let badgeOffsetY = -8;
 
 // 📍 지역 좌표
 const dongCoords = {
@@ -163,7 +163,7 @@ function renderMarkers(storesData) {
 
       <!-- 💖💛 하트 -->
       <span style="
-  font-size:${status === "active" ? 17 : 12}px;
+  font-size:${status === "active" ? 18 : 12}px;
   text-shadow:0 1px 3px rgba(0,0,0,0.4);
   display:block;
 ">
@@ -175,7 +175,7 @@ function renderMarkers(storesData) {
         font-size:${status === "active" ? 10 : 7}px;
         color:${status === "active" ? "#a11000" : "#000000"};
         white-space:nowrap;
-        margin-top:-5px;
+        margin-top:-3px;
       ">
         ${store.storeName}
       </div>
