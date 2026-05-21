@@ -254,48 +254,36 @@ function openWebsite(url) {
 // 필터
 function applyFilter() {
 
-  if (!map._loaded) {
-  renderMarkers(allStores);
-  return;
-}
-
   let filtered = allStores || [];
 
+  // 🔥 1단계: 지역 필터
   if (currentDong) {
     filtered = filtered.filter(store =>
       (store.dong || "").includes(currentDong)
     );
   }
 
+  // 🔥 2단계: 카테고리 필터
   if (currentCategory && currentCategory !== "전체") {
     filtered = filtered.filter(store =>
       store.category === currentCategory
     );
   }
 
-  // 🔥 핵심 수정
+  // 🔥 핵심 추가 (첫 로딩 보호)
   const bounds = map.getBounds();
+  const isInitialLoad =
+    bounds._southWest &&
+    bounds._northEast &&
+    bounds._southWest.lat === bounds._northEast.lat;
 
-// 🔥 bounds가 아직 초기 상태면 필터 건너뛰기
-if (!bounds || bounds._southWest === undefined) {
-  renderMarkers(filtered);
-  return;
-}
-
-filtered = filtered.filter(store => {
-  const lat = Number(store.lat);
-  const lng = Number(store.lng);
-
-  if (!lat || !lng) return false;
-
-  return bounds.contains([lat, lng]);
-});
-
-  filtered = filtered.filter(store => {
-    const lat = Number(store.lat);
-    const lng = Number(store.lng);
-    return bounds.contains([lat, lng]);
-  });
+  if (!isInitialLoad) {
+    filtered = filtered.filter(store => {
+      const lat = Number(store.lat);
+      const lng = Number(store.lng);
+      return bounds.contains([lat, lng]);
+    });
+  }
 
   renderMarkers(filtered);
 }
