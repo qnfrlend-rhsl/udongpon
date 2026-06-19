@@ -187,7 +187,7 @@ function renderCoupons(coupons) {
           <span class="coupon-status ${
             isActive ? "status-active" : "status-expired"
           }">
-            ${isActive ? "🟢 사용가능" : "⚪ 만료"}
+            ${isActive ? "🟢 사용가능" : "⚪ 결제완료"}
           </span>
         </div>
 

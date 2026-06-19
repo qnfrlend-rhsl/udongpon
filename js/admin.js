@@ -133,7 +133,7 @@ function renderCoupons(filter) {
           ${isActive
           ? `<button onclick="payCoupon('${id}')">결제대기</button>`
            : ""}
-          <!-- <button onclick="deleteCoupon('${id}')">삭제</button> -->
+          <button onclick="deleteCoupon('${id}')">삭제</button>
         </div>
 
       </div>
@@ -364,16 +364,26 @@ function updateStatus(id, status) {
    ⭐ 쿠폰 삭제
 ========================= */
 function deleteCoupon(id) {
+
+  if (!requireAdmin()) return;
+
   if (!confirm("정말 삭제할까?")) return;
 
   fetch(
     GAS_URL +
-      "?action=deleteCoupon&couponId=" +
-      encodeURIComponent(id)
+    "?action=deleteCoupon&couponId=" +
+    encodeURIComponent(id)
   )
-    .then(() => loadAdminCoupons());
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) loadAdminCoupons();
+    else alert("삭제 실패");
+  })
+  .catch(err => {
+    console.error(err);
+    alert("삭제 중 오류 발생");
+  });
 }
-
 /* =========================
    ⭐ 매장 필터 (쿠폰용 드롭다운 자동 생성)
 ========================= */
