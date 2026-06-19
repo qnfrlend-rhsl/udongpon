@@ -4,7 +4,22 @@ let allCoupons = [];
 let allStores = [];
 let isAdmin = localStorage.getItem("isAdmin") === "true";
 
+function getGeoCache() {
+  return JSON.parse(localStorage.getItem("geoCache") || "{}");
+}
+
+function setGeoCache(cache) {
+  localStorage.setItem("geoCache", JSON.stringify(cache));
+}
+
 async function getCoordsFromAddress(address) {
+
+  const geoCache = getGeoCache(); 
+
+  if (geoCache[address]) {
+    return geoCache[address];
+  }
+
   const url = `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(address)}`;
 
   const res = await fetch(url, {
@@ -19,10 +34,16 @@ async function getCoordsFromAddress(address) {
     return null;
   }
 
-  return {
+  const result = {
     lat: data.documents[0].y,
     lng: data.documents[0].x
   };
+
+  // ⭐ 캐시에 저장
+  geoCache[address] = result;
+  setGeoCache(geoCache);
+
+  return result;
 }
 
 
@@ -175,7 +196,7 @@ function renderStores() {
         </div><br>
 
         <button onclick="editStore('${s.storeId}')">수정</button>
-        <!-- <button onclick="deleteStore('${s.storeId}')">삭제</button> -->
+        <button onclick="deleteStore('${s.storeId}')">삭제</button>
         <button onclick="setStoreStatus('${s.storeId}','active')">매장등록</button>
         <button onclick="setStoreStatus('${s.storeId}','pending')">등록대기</button>
       </div>
@@ -183,11 +204,22 @@ function renderStores() {
   }).join("");
 }
 
+function requireAdmin() {
+  if (!isAdmin) {
+    alert("관리자 권한 필요 🔒");
+    return false;
+  }
+  return true;
+}
+
 // =========================
 // 매장 상태 변경
 // 위치: js/admin.js
 // =========================
 function setStoreStatus(storeId, mode) {
+
+  if (!requireAdmin()) return;
+
   const statusValue = mode === "active" ? "active" : "pending";
 
   fetch(GAS_URL + "?action=updateStoreStatus&storeId=" + encodeURIComponent(storeId) +
@@ -212,10 +244,7 @@ function setStoreStatus(storeId, mode) {
 ========================= */
 async function addStore(status = 'active') {
 
-  if (!isAdmin) {
-    alert("관리자 모드 필요 🔒");
-    return;
-  }
+  if (!requireAdmin()) return;
 
   const storeName = document.getElementById("storeName")?.value || "";
   const category = document.getElementById("storeCategory")?.value || "";
@@ -265,22 +294,30 @@ async function addStore(status = 'active') {
    ⭐ 매장 삭제
 ========================= */
 function deleteStore(id) {
-  if (!confirm("매장을 삭제할까?")) return;
 
-  fetch(
-    GAS_URL + "?action=deleteStore&storeId=" + encodeURIComponent(id)
-  )
-  .then(() => loadStores());
+  if (!requireAdmin()) return;
+
+  if (!confirm("정말 삭제할까?")) return;
+
+  fetch(GAS_URL + "?action=deleteStore&storeId=" + encodeURIComponent(id))
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) loadStores();
+      else alert("삭제 실패");
+    })
+    .catch(err => {
+      console.error(err);
+      alert("삭제 중 오류 발생");
+    });
 }
 
 /* =========================
    ⭐ 매장 수정 (간단 prompt 방식)
 ========================= */
 function editStore(id) {
-    if (!isAdmin) {
-    alert("관리자 모드 필요 🔒");
-    return;
-  }
+
+  if (!requireAdmin()) return;
+  
   const store = allStores.find(s => String(s.storeId) === String(id));
   if (!store) return;
 
