@@ -242,7 +242,7 @@ function setStoreStatus(storeId, mode) {
 /* =========================
    ⭐ 매장 등록
 ========================= */
-async function addStore() {
+async function addStore(status = 'active') {
 
   if (!requireAdmin()) return;
 
@@ -251,14 +251,10 @@ async function addStore() {
   const dong = document.getElementById("storeDong")?.value || "";
   const address = document.getElementById("storeAddress")?.value || "";
   const phone = document.getElementById("storePhone")?.value || "";
-  const discount = document.getElementById("storeDiscount")?.value || "";  
-  const eventOn = document.getElementById("eventOn")?.value || "OFF";
-  const eventStart = document.getElementById("eventStart")?.value || "";
-  const eventEnd = document.getElementById("eventEnd")?.value || "";
+  const discount = document.getElementById("storeDiscount")?.value || "";
+  const websiteUrl = document.getElementById("storeWebsite")?.value || "";
 
-  // ⭐ 여기 추가 (핵심)
-  const status = "pending";
-
+  // ⭐ 여기 핵심 추가
   const coords = await getCoordsFromAddress(address);
 
   if (!coords) {
@@ -276,9 +272,6 @@ async function addStore() {
     "&phone=" + encodeURIComponent(phone) +
     "&discount=" + encodeURIComponent(discount) +
     "&websiteUrl=" + encodeURIComponent(websiteUrl) +
-    "&eventOn=" + encodeURIComponent(eventOn) +
-    "&eventStart=" + encodeURIComponent(eventStart) +
-    "&eventEnd=" + encodeURIComponent(eventEnd) +
     "&lat=" + encodeURIComponent(coords.lat) +
     "&lng=" + encodeURIComponent(coords.lng) +
     "&status=" + encodeURIComponent(status)
