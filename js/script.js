@@ -156,10 +156,16 @@ function renderMarkers(storesData) {
     const emoji = status === "active" ? "💖" : "💛";
 
     // 🔥 배지 조건
-    const showBadge =
-      status === "active" &&
-      store.discount &&
-      store.discount.trim() !== "";
+   const now = new Date();
+
+  const eventStart = new Date(store.eventStart);
+  const eventEnd = new Date(store.eventEnd);
+
+  const showBadge =
+  status === "active" &&
+  String(store.eventOn).trim().toUpperCase() === "TRUE" &&
+  now >= eventStart &&
+  now <= eventEnd;
 
     const icon = L.divIcon({
   className: "custom-pin",

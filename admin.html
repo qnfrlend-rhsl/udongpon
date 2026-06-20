@@ -172,6 +172,24 @@
   <input id="storeAddress" placeholder="주소">
   <input id="storePhone" placeholder="전화번호">
   <input id="storeDiscount" placeholder="할인 금액 또는 품목">
+  
+  <label for="eventOn">이벤트 상태</label>
+<select id="eventOn">
+  <option value="TRUE">ON</option>
+  <option value="FALSE">OFF</option>
+</select>
+  <label for="eventStart">이벤트 시작일</label>
+  <input
+  id="eventStart"
+  type="date"
+  title="이벤트 시작일">
+
+  <label for="eventEnd">이벤트 종료일</label>
+  <input
+  id="eventEnd"
+  type="date"
+  title="이벤트 종료일">
+
   <input id="storeWebsite" placeholder="웹사이트 URL">
 
   <button onclick="addStore('active')">매장 등록</button>
