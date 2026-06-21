@@ -71,7 +71,14 @@ function loadStores() {
   fetch(GAS_URL + "?action=getStores")
     .then(res => res.json())
     .then(data => {
-      allStores = Array.isArray(data) ? data : [];
+
+      allStores = (Array.isArray(data) ? data : [])
+  .filter(store => store && typeof store === "object")
+  .map(store => ({
+    ...store,
+    hasEvent: store.hasEvent ?? false
+  }));
+
       renderStores();
       updateStoreFilter();
     })

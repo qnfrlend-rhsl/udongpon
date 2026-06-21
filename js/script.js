@@ -156,9 +156,8 @@ function renderMarkers(storesData) {
 
     // 🔥 배지 조건
     const showBadge =
-      status === "active" &&
-      store.discount &&
-      store.discount.trim() !== "";
+  store.status === "active" &&
+  store.hasEvent === true;
 
     const icon = L.divIcon({
   className: "custom-pin",
