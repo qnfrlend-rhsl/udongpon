@@ -59,6 +59,16 @@ const dongCoords = {
   "만천리": [37.877434, 127.771491]
 };
 
+function isEventActive(store) {
+  if (!store.eventStart || !store.eventEnd) return false;
+
+  const now = Date.now();
+  const start = new Date(store.eventStart).getTime();
+  const end = new Date(store.eventEnd).getTime();
+
+  return now >= start && now <= end;
+}
+
 // 최근 검색 저장
 function saveRecentSearch(keyword) {
 
@@ -157,7 +167,7 @@ function renderMarkers(storesData) {
     // 🔥 배지 조건
     const showBadge =
   store.status === "active" &&
-  store.hasEvent === true;
+  isEventActive(store);
 
     const icon = L.divIcon({
   className: "custom-pin",
@@ -235,7 +245,7 @@ function renderMarkers(storesData) {
     popupContent += `<button onclick="openWebsite('${store.websiteUrl || ""}')">홈페이지 보기</button>`;
 
     if (status === "active") {
-      popupContent += `<br><br><button onclick="goToStore('${store.storeName}')">쿠폰받기</button>`;
+      //popupContent += `<br><br><button onclick="goToStore('${store.storeName}')">쿠폰받기</button>`;
     } else {
       popupContent += `<br><br><span style="font-size:16px;font-weight:bold;color:red;">등록대기중</span>`;
     }

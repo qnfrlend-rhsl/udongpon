@@ -126,14 +126,31 @@
     hr {
       margin: 20px 0;
     }
+
+  /*
+.event-card {
+  border: 2px solid #ff3b3b;
+  box-shadow: 0 0 12px rgba(255, 59, 59, 0.4);
+  transform: scale(1.02);
+  animation: pulseEvent 1.5s infinite;
+}
+
+@keyframes pulseEvent {
+  0% { box-shadow: 0 0 6px rgba(255, 59, 59, 0.3); }
+  50% { box-shadow: 0 0 18px rgba(255, 59, 59, 0.7); }
+  100% { box-shadow: 0 0 6px rgba(255, 59, 59, 0.3); }
+}
+*/
+
   </style>
+  
 </head>
 
 <body>
 
 <header>
   <h1>관리자 페이지</h1>
-  <p>결제완료 후 1시간이 지나면 자동 삭제됩니다.</p>
+  <p>이벤트 매장은 기간 종료 시 선물상자가 사라집니다.</p>
   <p>우리동네 할인쿠폰 등록/수정(문의 010-8429-5368)</p>
   
 </header>
@@ -178,6 +195,10 @@
   <button onclick="addStore('pending')">등록 대기</button>
 
   <h2>📌 등록된 매장</h2>
+
+  <button onclick="filterEventStores()">🔥 이벤트만 보기</button>
+  <button onclick="renderStores()">전체보기</button>
+
   <input
   id="storeSearch"
   placeholder="매장명 검색"

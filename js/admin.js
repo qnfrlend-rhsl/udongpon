@@ -4,6 +4,16 @@ let allCoupons = [];
 let allStores = [];
 let isAdmin = localStorage.getItem("isAdmin") === "true";
 
+function isEventActive(store) {
+  if (!store.eventStart || !store.eventEnd) return false;
+
+  const now = Date.now();
+  const start = new Date(store.eventStart).getTime();
+  const end = new Date(store.eventEnd).getTime();
+
+  return now >= start && now <= end;
+}
+
 function getGeoCache() {
   return JSON.parse(localStorage.getItem("geoCache") || "{}");
 }
@@ -75,9 +85,8 @@ function loadStores() {
       allStores = (Array.isArray(data) ? data : [])
   .filter(store => store && typeof store === "object")
   .map(store => ({
-    ...store,
-    hasEvent: store.hasEvent ?? false
-  }));
+  ...store,
+}));
 
       renderStores();
       updateStoreFilter();
@@ -180,8 +189,6 @@ function toggleAdmin() {
   updateAdminButton();
 }
 
-
-
 function renderStores() {
   const el = document.getElementById("storeList");
 
@@ -190,14 +197,26 @@ function renderStores() {
     return;
   }
 
+  const sortedStores = [...allStores].sort((a, b) => {
+    const aEvent = isEventActive(a);
+    const bEvent = isEventActive(b);
+    return (bEvent ? 1 : 0) - (aEvent ? 1 : 0);
+  });
 
-  el.innerHTML = allStores.map(s => {
+  el.innerHTML = sortedStores.map(s => {
+
+    const eventActive = isEventActive(s);
+    const eventClass = eventActive ? "event-card" : "";  
+
     return `
-      <div class="card">
+      <div class="card ${eventClass}">
         <b>🏪 ${s.storeName}</b><br>
         📍 ${s.address || "-"}<br>
         📞 ${s.phone || "-"}<br>
         🎁 ${s.discount || "-"}<br>
+
+        ${eventActive ? "🔥 이벤트 진행중" : ""}
+
         <div class="status ${s.status === "active" ? "active" : "expired"}">
           ${s.status === "active" ? "운영중" : "등록대기"}
         </div><br>
@@ -334,6 +353,9 @@ function editStore(id) {
   const newCategory = prompt("카테고리", store.category);
   const newDiscount = prompt("할인", store.discount);
   const newUrl = prompt("웹사이트", store.websiteUrl);
+  const newEventStart = prompt("이벤트 시작일 (YYYY-MM-DD)", store.eventStart);
+  const newEventEnd = prompt("이벤트 종료일 (YYYY-MM-DD)", store.eventEnd);
+  const newEventText = prompt("이벤트 내용", store.eventText);
 
   fetch(
     GAS_URL +
@@ -344,7 +366,10 @@ function editStore(id) {
     "&phone=" + encodeURIComponent(newPhone) +
     "&category=" + encodeURIComponent(newCategory) +
     "&discount=" + encodeURIComponent(newDiscount) +
-    "&websiteUrl=" + encodeURIComponent(newUrl)
+    "&websiteUrl=" + encodeURIComponent(newUrl) +
+    "&eventStart=" + encodeURIComponent(newEventStart) +
+    "&eventEnd=" + encodeURIComponent(newEventEnd) +
+    "&eventText=" + encodeURIComponent(newEventText)
   )
   .then(() => loadStores());
 }
@@ -486,4 +511,29 @@ function showMsg(text) {
   setTimeout(() => {
     msg.remove();
   }, 500);
+}
+
+/* =========================
+   ⭐ 이벤트 필터 추가 (여기에 넣기)
+========================= */
+function filterEventStores() {
+  const el = document.getElementById("storeList");
+
+  const eventStores = allStores.filter(s => isEventActive(s));
+
+  if (!eventStores.length) {
+    el.innerHTML = "이벤트 매장 없음";
+    return;
+  }
+
+  el.innerHTML = eventStores.map(s => {
+    return `
+      <div class="card">
+        <b>🏪 ${s.storeName}</b><br>
+        📍 ${s.address || "-"}<br>
+        🎁 ${s.discount || "-"}<br>
+        🔥 이벤트 진행중
+      </div>
+    `;
+  }).join("");
 }
