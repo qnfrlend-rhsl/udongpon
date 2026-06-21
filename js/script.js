@@ -292,7 +292,7 @@ function applyFilter() {
       store.category === currentCategory
     );
   }
-
+/*
   // 🔥 핵심 수정
   const bounds = map.getBounds();
 
@@ -310,7 +310,7 @@ filtered = filtered.filter(store => {
 
   return bounds.contains([lat, lng]);
 });
-
+*/
   renderMarkers(filtered);
 }
 
