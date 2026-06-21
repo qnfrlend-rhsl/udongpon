@@ -202,7 +202,7 @@ function renderMarkers(storesData) {
                left:${badgeOffsetX + 11}px;
              ">
 
-          <div class="badge-icon"
+          <div class="badge-icon gift-glow"
             style="
               width:${badgeSize}px;
               height:${badgeSize}px;
