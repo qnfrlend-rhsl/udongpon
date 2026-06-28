@@ -448,3 +448,55 @@ form input {
 .autocomplete-item {
   -webkit-tap-highlight-color: transparent;
 }
+
+/* =========================
+   헤더 상단 로고 영역
+========================= */
+
+.header {
+  position: relative;
+
+  text-align: center;
+  padding: 15px;
+
+  background: #ff6b35;
+  color: white;
+}
+
+.partner-links{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.partner-links a{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+}
+
+.partner-logo{
+  width:36px;
+  height:36px;
+
+  object-fit:contain;
+
+  border-radius:8px;
+
+  background:white;
+
+  padding:2px;
+
+  box-shadow:0 1px 4px rgba(0,0,0,0.15);
+
+  transition:all .2s ease;
+}
+
+.partner-logo:hover{
+  transform:scale(1.1);
+}
+
+.partner-logo:active{
+  transform:scale(0.95);
+}
