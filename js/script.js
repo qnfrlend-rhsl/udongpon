@@ -242,7 +242,7 @@ function renderMarkers(storesData) {
     });
 
     let popupContent = `<b>${store.storeName}</b><br>🎁 ${store.discount || "-" }<br><br>`;
-    popupContent += `<button onclick="openWebsite('${store.websiteUrl || ""}')">홈페이지 보기</button>`;
+    popupContent += `<button onclick="openWebsite('${store.websiteUrl || ""}')">상세 / 홈페이지 보기</button>`;
 
     if (status === "active") {
       //popupContent += `<br><br><button onclick="goToStore('${store.storeName}')">쿠폰받기</button>`;

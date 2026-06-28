@@ -164,7 +164,7 @@ function updateAdminButton() {
   const btn = document.getElementById("adminBtn");
   if (!btn) return;
 
-  btn.innerText = isAdmin ? "관리자 ON 🔓" : "관리자 OFF 🔐";
+  btn.innerText = isAdmin ? "로그아웃 🔓" : "로그인 🔐";
 }
 
 function toggleAdmin() {
