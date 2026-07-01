@@ -69,6 +69,56 @@ function isEventActive(store) {
   return now >= start && now <= end;
 }
 
+function updateStats() {
+
+  const eventCount = allStores.filter(store =>
+    store.status === "active" &&
+    isEventActive(store)
+  ).length;
+
+  const activeCount = allStores.filter(store =>
+    store.status === "active"
+  ).length;
+
+  const pendingCount = allStores.filter(store =>
+    store.status === "pending"
+  ).length;
+
+  document.getElementById("eventCount").textContent =
+    eventCount + "개";
+
+  document.getElementById("storeCount").textContent =
+    activeCount + "개";
+
+  document.getElementById("pendingCount").textContent =
+    pendingCount + "개";
+
+  // =====================
+  // 이벤트 뉴스바
+  // =====================
+
+  const eventStores = allStores.filter(store =>
+    store.status === "active" &&
+    isEventActive(store)
+  );
+
+  let newsText =
+  `<span style="color:#ffd700;font-weight:bold;">
+   📢 현재 이벤트매장 ${eventStores.length}곳 운영중
+   </span> >> `;
+
+  eventStores.forEach(store => {
+  newsText += `
+    <span style="color:#ffffff;">
+      ${store.dong} ${store.storeName}
+    </span> | `;
+  });
+
+  document.getElementById("newsTrack").innerHTML =
+  newsText;
+  }
+
+
 // 최근 검색 저장
 function saveRecentSearch(keyword) {
 
@@ -104,6 +154,8 @@ fetch(GAS_URL + "?action=getStores")
   .then(stores => {
   allStores = stores || [];
 
+  updateStats();
+
   setTimeout(() => {
     applyFilter();
   }, 0);
@@ -125,28 +177,62 @@ function searchDong() {
 
   if (!input) return;
 
-  // 동 이름 목록 가져오기
+  // =====================
+  // 1. 동 검색
+  // =====================
+
   const dongList = Object.keys(dongCoords);
 
-  // 부분 일치 찾기
   const matchedDong = dongList.find(dong =>
     input.includes(dong.toLowerCase()) ||
     dong.toLowerCase().includes(input)
   );
 
-  if (!matchedDong) {
-    alert("해당 지역을 찾을 수 없습니다.");
+  if (matchedDong) {
+
+    currentDong = matchedDong;
+
+    map.setView(
+      dongCoords[matchedDong],
+      15,
+      { animate: true }
+    );
+
+    applyFilter();
+    saveRecentSearch(input);
     return;
   }
 
-  currentDong = matchedDong;
+  // =====================
+  // 2. 상호명 검색
+  // =====================
 
-  map.setView(dongCoords[matchedDong], 15, {
-    animate: true
-  });
+  const matchedStore = allStores.find(store =>
+    (store.storeName || "")
+      .toLowerCase()
+      .includes(input)
+  );
 
-  applyFilter();
-  saveRecentSearch(input);
+  if (matchedStore) {
+
+    currentDong = "";
+
+    map.setView(
+      [
+        Number(matchedStore.lat),
+        Number(matchedStore.lng)
+      ],
+      18,
+      { animate: true }
+    );
+
+    renderMarkers([matchedStore]);
+
+    saveRecentSearch(input);
+    return;
+  }
+
+  alert("검색 결과가 없습니다.");
 }
 
 // 🔥 마커 렌더 (배지 추가 버전)
@@ -453,10 +539,18 @@ dongInput.addEventListener("input", function() {
   // 동 목록
   const dongList = Object.keys(dongCoords);
 
-  // 검색
-  const matched = dongList.filter(dong =>
-    dong.toLowerCase().includes(input) ||
-    input.includes(dong.toLowerCase())
+  const storeList = allStores.map(
+  store => store.storeName
+  );
+
+  const searchList = [
+  ...dongList,
+  ...storeList
+  ];
+
+  const matched = searchList.filter(item =>
+  item.toLowerCase().includes(input) ||
+  input.includes(item.toLowerCase())
   );
 
   if (!matched.length) {

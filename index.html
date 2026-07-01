@@ -93,7 +93,7 @@
     <input 
       type="text" 
       id="dongInput" 
-      placeholder="지역 검색 (예: 후평동, 춘천시 후평동)"
+      placeholder="지역(후평동) 또는 상호명 검색"
       autocomplete="off">
 
     <div id="autocompleteList" class="autocomplete-list"></div>
@@ -123,6 +123,25 @@
     </div>
   </div>
 
+  <section class="stats-section">
+
+  <div class="stat-box">
+    <div class="stat-title">🎁 이벤트매장</div>
+    <div class="stat-count" id="eventCount">0개</div>
+  </div>
+
+  <div class="stat-box">
+    <div class="stat-title">🏪 등록된매장</div>
+    <div class="stat-count" id="storeCount">0개</div>
+  </div>
+
+  <div class="stat-box">
+    <div class="stat-title">⏳ 등록대기</div>
+    <div class="stat-count" id="pendingCount">0개</div>
+  </div>
+
+</section>
+
   <!-- 카테고리 -->
   <section class="category-section">
     <button onclick="filterCategory('전체')">전체</button>
@@ -142,8 +161,16 @@
     <button onclick="filterCategory('미용')">미용</button>
   </section>
 
-  <!-- 지도 -->
+    <!-- 지도 -->
   <div id="map"></div>
+
+  <div class="news-ticker">
+
+    <div class="news-track" id="newsTrack">
+      📢 이벤트 매장 정보를 불러오는 중...
+    </div>
+
+  </div>
 
   <script src="js/script.js"></script>
 </body>
