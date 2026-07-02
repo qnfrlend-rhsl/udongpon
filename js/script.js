@@ -105,13 +105,15 @@ function updateStats() {
   let newsText =
   `<span style="color:#ffd700;font-weight:bold;">
    📢 현재 이벤트매장 ${eventStores.length}곳 운영중
-   </span> >> `;
+   </span> ▶ `;
 
   eventStores.forEach(store => {
   newsText += `
-    <span style="color:#ffffff;">
-      ${store.dong} ${store.storeName}
-    </span> | `;
+  <span style="color:#ffffff;">
+    ${store.dong} ${store.storeName}
+  </span>
+  <span style="display:inline-block; margin-left:25px;">▶</span>
+  `;
   });
 
   document.getElementById("newsTrack").innerHTML =
