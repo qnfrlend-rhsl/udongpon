@@ -601,7 +601,7 @@ form input {
 /*////////////////////////////////////////  매장 클릭하시면 상세 페이지를 볼 수 있습니다. 라는 박스 코드*/
 .event-box {
   margin: 10px auto;
-  padding: 15x 12px;
+  padding: 1px 12px;/*///////////////////////////////////////////////  박스 높이 길어 조절 코드*/
 
   background: #fff;
   border-radius:6px;  /*///////////////////////////////////////////////  박스 좌우 귀돌이 하는 코드*/
@@ -611,7 +611,7 @@ form input {
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 
   width: 85%;
-  max-width: 550px;
+  max-width: 550px;  /*///////////////////////////////////////////////  박스 좌우 길어 조절 코드*/
 }
 
 .event-line {
@@ -622,7 +622,7 @@ form input {
 }
 
 .event-text {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   color: #ff6b35;
   margin: 6px 0;
