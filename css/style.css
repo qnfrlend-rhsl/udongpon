@@ -37,7 +37,7 @@ body {
 .search-section button {           /*///////////////////////////////  검색이란 버튼 색상임*/
   padding: 12px 16px;
   border: none;
-  background: #9233a5;
+  background: #891f9e;
   color: white;
   cursor: pointer;
 }
@@ -456,7 +456,7 @@ form input {
   position: relative;
   text-align: center;
   padding: 15px;
-  background: linear-gradient(to bottom right,#ff6b35,#9233a5);
+  background: linear-gradient(to bottom right,#ff6b35, #87119e);
   color: white;
 }
 
