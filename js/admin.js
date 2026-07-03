@@ -223,8 +223,8 @@ function renderStores() {
 
         <button onclick="editStore('${s.storeId}')">수정</button>
         <button onclick="deleteStore('${s.storeId}')">삭제</button>
-        <button onclick="setStoreStatus('${s.storeId}','active')">매장등록</button>
-        <button onclick="setStoreStatus('${s.storeId}','pending')">등록대기</button>
+        <button onclick="setStoreStatus('${s.storeId}','active')">등록</button>
+        <button onclick="setStoreStatus('${s.storeId}','pending')">대기</button>
       </div>
     `;
   }).join("");
