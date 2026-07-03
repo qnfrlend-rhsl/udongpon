@@ -105,7 +105,7 @@ function updateStats() {
   let newsText =
 `<span style="color:#ffd700;font-weight:bold; font-size:13px; display:inline-flex; align-items:center; gap:5px;">
   <span style="font-size:12px;">📢</span>
-  현재 이벤트매장 ${eventStores.length}곳 운영중
+  현재 이벤트매장 ${eventStores.length}곳 운영중 [ 문의전화 : 010-8429-5368 ]
 </span>
 <span style="margin-left:8px; font-size:10px; color:#ff0000; opacity:0.8;">▶</span> `;
 

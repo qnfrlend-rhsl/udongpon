@@ -34,7 +34,7 @@ body {
   font-size: 16px;
 }
 
-.search-section button {           /*///////////////////////////////  검색이란 버튼 색상임*/
+.search-section button {           /*////////////////////////////////////////  검색이란 버튼 색상임*/
   padding: 12px 16px;
   border: none;
   background: #891f9e;
@@ -509,7 +509,7 @@ form input {
   background:#fff;
   border-radius:10px;
   box-shadow:0 2px 6px rgba(0,0,0,0.1);
-  padding:6px 2px;/*////////////////////////////////////////  이벤트 매장 갯수 박스 사이즈 줄이는 코드 */
+  padding:6px 2px;/*/////////////////////////////////////////////  이벤트 매장 갯수 박스 사이즈 줄이는 코드 */
   text-align:center;
 }
 
@@ -561,7 +561,7 @@ form input {
 
   padding-left:100%;
 
-  animation:tickerMove 20s linear infinite;/*////하단바 속도조절 코드 속도를 빠르게 하려면 숫자는 줄이면 됨*/
+  animation:tickerMove 20s linear infinite;/*//////하단바 속도조절 코드 속도를 빠르게 하려면 숫자는 줄이면 됨*/
 }
 
 @keyframes tickerMove{
@@ -594,17 +594,17 @@ form input {
 
 .header-subtext {
   margin: 5px 0 0 0;
-  font-size: 40px;
+  font-size: 30px;/*//////////////////////////////////////// 더 큰 혜택, 더 큰 즐거움!  글자 크기 조절 코드 */
   font-weight: 600;
   color: rgba(255,255,255,0.9);
 }
-/*////////////////////////////////////////  매장 클릭하시면 상세 페이지를 볼 수 있습니다. 라는 박스 코드*/
+/*/////////////////////////////////////////////// 매장 클릭하시면 상세 페이지를 볼 수 있습니다. 라는 박스 코드*/
 .event-box {
   margin: 10px auto;
-  padding: 1px 12px;/*///////////////////////////////////////////////  박스 높이 길어 조절 코드*/
+  padding: 1px 12px;/*//////////////////////////////////////////////////////////// 박스 높이 길어 조절 코드*/
 
   background: #fff;
-  border-radius:6px;  /*///////////////////////////////////////////////  박스 좌우 귀돌이 하는 코드*/
+  border-radius:6px;  /*//////////////////////////////////////////////////////// 박스 좌우 귀돌이 하는 코드*/
 
   text-align: center;
 
