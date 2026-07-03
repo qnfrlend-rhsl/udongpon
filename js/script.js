@@ -97,13 +97,13 @@ function updateStats() {
   ).length;
 
   document.getElementById("eventCount").textContent =
-    eventCount + "개";
+    eventCount + "";
 
   document.getElementById("storeCount").textContent =
-    activeCount + "개";
+    activeCount + "";
 
   document.getElementById("pendingCount").textContent =
-    pendingCount + "개";
+    pendingCount + "";
 
   // =====================
   // 이벤트 뉴스바
