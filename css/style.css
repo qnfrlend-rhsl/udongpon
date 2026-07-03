@@ -578,10 +578,10 @@ form input {
   position: relative;
 }
 
-.gift-box {
+.gift-box {    /*////////////////////////////////////////////////////// 상단배너에 선물박스 수정하는 코드 */
   position: absolute;
 
-  right: 20px;
+  right: 1px;
   top: 99;
 
   transform: translateY(-50%);
