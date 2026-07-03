@@ -1,15 +1,27 @@
 const GAS_URL = "https://script.google.com/macros/s/AKfycbxKs4fzt-dN_b1Y-R9Mhiccx_NWqZJE1q9vBr_xwLIUHU66okTfpBAeBVBULLxITX26Jw/exec";
 
 // 지도 초기화
-const map = L.map('map', {
-  minZoom: 6,
-  maxZoom: 19
-}).setView([37.885192, 127.745077], 17);
+let map;
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; OpenStreetMap contributors',
-  maxZoom: 19
-}).addTo(map);
+window.addEventListener("DOMContentLoaded", () => {
+
+  setTimeout(() => {
+
+    map = L.map('map', {
+      minZoom: 6,
+      maxZoom: 19
+    }).setView([37.885192, 127.745077], 17);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+      maxZoom: 19
+    }).addTo(map);
+
+    startApp();
+
+  }, 300);
+
+});
 
 // 마커 저장
 let markers = [];
@@ -152,18 +164,22 @@ function getRecentSearches() {
 }
 
 // 데이터 로드
-fetch(GAS_URL + "?action=getStores")
-  .then(res => res.json())
-  .then(stores => {
-  allStores = stores || [];
+setTimeout(() => {
 
-  updateStats();
+  fetch(GAS_URL + "?action=getStores")
+    .then(res => res.json())
+    .then(stores => {
 
-  setTimeout(() => {
-    applyFilter();
-  }, 0);
-})
-  .catch(err => console.error("STORE ERROR:", err));
+      allStores = stores || [];
+
+      updateStats(); // UI 업데이트 먼저
+
+      applyFilter(); // 바로 실행 (setTimeout 제거)
+
+    })
+    .catch(err => console.error("STORE ERROR:", err));
+
+}, 300);
 
 // 상세 이동
 function goToStore(storeName) {
@@ -330,14 +346,28 @@ function renderMarkers(storesData) {
     sticky: true
     });
 
-    let popupContent = `<b>${store.storeName}</b><br>🎁 ${store.discount || "-" }<br><br>`;
-    popupContent += `<button onclick="openWebsite('${store.websiteUrl || ""}')">상세 / 홈페이지 보기</button>`;
+    let popupContent = `
+  <b>${store.storeName}</b><br>
+  📞 ${store.phone || "번호 없음"}<br>
+  🎁 ${store.discount || "-"}<br><br>
+`;
 
-    if (status === "active") {
-      //popupContent += `<br><br><button onclick="goToStore('${store.storeName}')">쿠폰받기</button>`;
-    } else {
-      popupContent += `<br><br><span style="font-size:16px;font-weight:bold;color:red;">등록대기중</span>`;
-    }
+popupContent += `
+  <button onclick="openWebsite('${store.websiteUrl || ""}')">
+    상세 / 홈페이지 보기
+  </button>
+`;
+
+if (status === "active") {
+  // popupContent += `<br><br><button onclick="goToStore('${store.storeName}')">쿠폰받기</button>`;
+} else {
+  popupContent += `
+    <br><br>
+    <span style="font-size:16px;font-weight:bold;color:red;">
+      등록대기중
+    </span>
+  `;
+}
 
     marker.bindPopup(popupContent);
     markers.push(marker);
