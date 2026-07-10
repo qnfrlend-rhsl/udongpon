@@ -1,4 +1,4 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbxKs4fzt-dN_b1Y-R9Mhiccx_NWqZJE1q9vBr_xwLIUHU66okTfpBAeBVBULLxITX26Jw/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbxusySsJpoVyM_gIdReIYPcVF4w40-vY9EAuO6HPmuSLvy5hQL3vQomMcSxolmnaMX6LA/exec";
 
 // 지도 초기화
 let map;

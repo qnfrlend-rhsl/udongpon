@@ -1,4 +1,4 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbxKs4fzt-dN_b1Y-R9Mhiccx_NWqZJE1q9vBr_xwLIUHU66okTfpBAeBVBULLxITX26Jw/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbxusySsJpoVyM_gIdReIYPcVF4w40-vY9EAuO6HPmuSLvy5hQL3vQomMcSxolmnaMX6LA/exec";
 
 let allCoupons = [];
 let allStores = [];
@@ -222,6 +222,8 @@ function renderStores() {
         </div><br>
 
         <button onclick="editStore('${s.storeId}')">수정</button>
+        <button onclick="editEvent('${s.storeId}')">🎁 이벤트 관리</button>
+        <br>
         <button onclick="deleteStore('${s.storeId}')">삭제</button>
         <button onclick="setStoreStatus('${s.storeId}','active')">등록</button>
         <button onclick="setStoreStatus('${s.storeId}','pending')">등록대기</button>
@@ -235,6 +237,30 @@ function requireAdmin() {
     alert("관리자 권한 필요 🔒");
     return false;
   }
+  return true;
+}
+
+// =========================
+// ⭐ 매장 관리자 비밀번호 확인
+// =========================
+function requireStoreOwner(id) {
+
+  const store = allStores.find(
+    s => String(s.storeId) === String(id)
+  );
+
+  if (!store) {
+    alert("매장 정보를 찾을 수 없습니다.");
+    return false;
+  }
+
+  const pw = prompt("매장 관리자 비밀번호");
+
+  if (String(pw) !== String(store.storePassword)) {
+    alert("비밀번호가 틀립니다.");
+    return false;
+  }
+
   return true;
 }
 
@@ -277,8 +303,9 @@ async function addStore(status = 'active') {
   const dong = document.getElementById("storeDong")?.value || "";
   const address = document.getElementById("storeAddress")?.value || "";
   const phone = document.getElementById("storePhone")?.value || "";
-  const discount = document.getElementById("storeDiscount")?.value || "";
+  const discount = document.getElementById("storeDiscount")?.value || "";  
   const websiteUrl = document.getElementById("storeWebsite")?.value || "";
+  const storePassword = document.getElementById("storePassword")?.value || "";
 
   // ⭐ 여기 핵심 추가
   const coords = await getCoordsFromAddress(address);
@@ -298,6 +325,7 @@ async function addStore(status = 'active') {
     "&phone=" + encodeURIComponent(phone) +
     "&discount=" + encodeURIComponent(discount) +
     "&websiteUrl=" + encodeURIComponent(websiteUrl) +
+    "&storePassword=" + encodeURIComponent(storePassword) +
     "&lat=" + encodeURIComponent(coords.lat) +
     "&lng=" + encodeURIComponent(coords.lng) +
     "&status=" + encodeURIComponent(status)
@@ -341,8 +369,7 @@ function deleteStore(id) {
    ⭐ 매장 수정 (간단 prompt 방식)
 ========================= */
 function editStore(id) {
-
-  if (!requireAdmin()) return;
+  if (!requireStoreOwner(id)) return;
   
   const store = allStores.find(s => String(s.storeId) === String(id));
   if (!store) return;
@@ -353,9 +380,9 @@ function editStore(id) {
   const newCategory = prompt("카테고리", store.category);
   const newDiscount = prompt("할인", store.discount);
   const newUrl = prompt("웹사이트", store.websiteUrl);
-  const newEventStart = prompt("이벤트 시작일 (YYYY-MM-DD)", store.eventStart);
-  const newEventEnd = prompt("이벤트 종료일 (YYYY-MM-DD)", store.eventEnd);
-  const newEventText = prompt("이벤트 내용", store.eventText);
+  // const newEventStart = prompt("이벤트 시작일 (YYYY-MM-DD)", store.eventStart);
+  // const newEventEnd = prompt("이벤트 종료일 (YYYY-MM-DD)", store.eventEnd);
+  // const newEventText = prompt("이벤트 상태", store.eventText);
 
   fetch(
     GAS_URL +
@@ -366,12 +393,76 @@ function editStore(id) {
     "&phone=" + encodeURIComponent(newPhone) +
     "&category=" + encodeURIComponent(newCategory) +
     "&discount=" + encodeURIComponent(newDiscount) +
-    "&websiteUrl=" + encodeURIComponent(newUrl) +
-    "&eventStart=" + encodeURIComponent(newEventStart) +
-    "&eventEnd=" + encodeURIComponent(newEventEnd) +
-    "&eventText=" + encodeURIComponent(newEventText)
+    "&websiteUrl=" + encodeURIComponent(newUrl)
+    // + "&eventStart=" + encodeURIComponent(newEventStart) +
+    // "&eventEnd=" + encodeURIComponent(newEventEnd) +
+    // "&eventText=" + encodeURIComponent(newEventText)
   )
   .then(() => loadStores());
+}
+
+/* =========================
+   🎁 이벤트 관리
+========================= */
+function editEvent(id) {
+
+  // 1차 : 매장 관리자 확인
+  //if (!requireStoreOwner(id)) return;
+
+  // 2차 : 이벤트 관리자 비밀번호
+  const eventAdminPw = prompt("🎁 이벤트 관리자 비밀번호");
+
+  if (eventAdminPw !== "132482") {
+    alert("이벤트 관리 권한 없음");
+    return;
+  }
+
+
+  const store = allStores.find(
+    s => String(s.storeId) === String(id)
+  );
+
+  if (!store) return;
+
+
+  const eventStart = prompt(
+    "이벤트 시작일 (YYYY-MM-DD)",
+    store.eventStart || ""
+  );
+
+  const eventEnd = prompt(
+    "이벤트 종료일 (YYYY-MM-DD)",
+    store.eventEnd || ""
+  );
+
+  const eventText = prompt(
+    "이벤트 내용",
+    store.eventText || ""
+  );
+
+  fetch(
+    GAS_URL +
+    "?action=updateStore" +
+    "&storeId=" + encodeURIComponent(id) +
+    "&eventStart=" + encodeURIComponent(eventStart) +
+    "&eventEnd=" + encodeURIComponent(eventEnd) +
+    "&eventText=" + encodeURIComponent(eventText)
+  )
+  .then(res => res.json())
+  .then(data => {
+
+    if(data.success){
+      alert("🎁 이벤트 등록 완료");
+      loadStores();
+    } else {
+      alert("이벤트 등록 실패");
+    }
+
+  })
+  .catch(err=>{
+    console.error(err);
+    alert("이벤트 오류");
+  });
 }
 /* =========================
    ⭐ 쿠폰 상태 변경
