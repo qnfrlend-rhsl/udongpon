@@ -222,7 +222,7 @@ function renderStores() {
         </div><br>
 
         <button onclick="editStore('${s.storeId}')">수정</button>
-        <button onclick="editEvent('${s.storeId}')">🎁 이벤트 관리</button>
+        <button onclick="editEvent('${s.storeId}')">🎁 이벤트 등록</button>
         <br>
         <button onclick="deleteStore('${s.storeId}')">삭제</button>
         <button onclick="setStoreStatus('${s.storeId}','active')">등록</button>
