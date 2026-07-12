@@ -353,7 +353,7 @@ function renderMarkers(storesData) {
 `;
 
 popupContent += `
-  <button onclick="openWebsite('${store.websiteUrl || ""}')">
+  <button onclick="openWebsite('${store.websiteUrl || ""}', '${store.status}')">
     상세 / 홈페이지 보기
   </button>
 `;
@@ -386,7 +386,13 @@ function filterCategory(category) {
 }
 
 // 외부 링크
-function openWebsite(url) {
+function openWebsite(url, status) {
+
+  if (status === "pending") {
+    alert("정식등록이 필요합니다.");
+    return;
+  }
+
   if (!url) {
     alert("등록된 홈페이지가 없습니다.");
     return;
