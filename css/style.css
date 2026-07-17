@@ -636,3 +636,8 @@ form input {
   margin-top: 6px;
   margin-bottom: 0;
 }
+
+.seller-divider {
+    margin: 10px 0;
+    opacity: 0.3;
+}
