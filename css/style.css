@@ -554,56 +554,45 @@ form input {
   border-top:2px solid #ff6b35;
 }
 
-.news-ticker {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 40px;
-
-  background: #222;
-  color: #fff;
-
-  overflow: hidden;
-
-  display: flex;
-  align-items: center;
-
-  z-index: 9999;
-
-  border-top: 2px solid #ff6b35;
-}
-
 .news-track {
-  display: flex;
-  width: max-content;
-
   white-space: nowrap;
-
   font-size: 14px;
   font-weight: 600;
 
+  /* 광고가 오른쪽 화면 밖에서 시작 */
+  padding-left: 100%;
+
+  /* 하단 광고 속도 */
+  animation: tickerMove 15s linear infinite;
+
+  /* 모바일 GPU 가속 */
   will-change: transform;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 
-  animation: tickerMove 12s linear infinite;
-
+  /* 모바일 화면 떨림 완화 */
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+
+  /* 3D 렌더링 안정화 */
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
+
+  /* 애니메이션 중 불필요한 선택 방지 */
+  -webkit-user-select: none;
+  user-select: none;
 }
 
-.news-track span {
-  display: block;
-  padding-right: 80px;
-  flex-shrink: 0;
-}
-
+/* 하단 광고 이동 */
 @keyframes tickerMove {
   from {
+    -webkit-transform: translate3d(100, 0, 0);
     transform: translate3d(0, 0, 0);
   }
 
   to {
-    transform: translate3d(-50%, 0, 0);
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
   }
 }
 
