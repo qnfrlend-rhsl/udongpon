@@ -563,7 +563,7 @@ form input {
   padding-left: 100%;
 
   /* 하단 광고 속도 */
-  animation: tickerMove 18s linear infinite;
+  animation: tickerMove 20s linear infinite;
 
   /* 모바일 GPU 가속 */
   will-change: transform;
