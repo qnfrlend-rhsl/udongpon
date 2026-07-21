@@ -559,7 +559,9 @@ form input {
 ===================== */
 
 .news-track {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+
   white-space: nowrap;
 
   font-size: 14px;
@@ -567,12 +569,7 @@ form input {
 
   padding-left: 100%;
 
-  animation: tickerMove 20s linear infinite;
-
-  will-change: transform;
-
-  -webkit-transform: translateX(0);
-  transform: translateX(0);
+  animation: tickerMove 88s linear infinite;
 
   -webkit-user-select: none;
   user-select: none;
@@ -580,12 +577,10 @@ form input {
 
 @keyframes tickerMove {
   from {
-    -webkit-transform: translateX(0);
     transform: translateX(0);
   }
 
   to {
-    -webkit-transform: translateX(-100%);
     transform: translateX(-100%);
   }
 }
