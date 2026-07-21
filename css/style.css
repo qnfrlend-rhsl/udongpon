@@ -559,21 +559,33 @@ form input {
 ===================== */
 
 .news-track {
-  display: inline-flex;
-  align-items: center;
+  display: inline-block;
   white-space: nowrap;
+
+  font-size: 14px;
+  font-weight: 600;
 
   padding-left: 100%;
 
   animation: tickerMove 20s linear infinite;
+
+  will-change: transform;
+
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 @keyframes tickerMove {
   from {
+    -webkit-transform: translateX(0);
     transform: translateX(0);
   }
 
   to {
+    -webkit-transform: translateX(-100%);
     transform: translateX(-100%);
   }
 }
