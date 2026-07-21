@@ -560,7 +560,7 @@ form input {
   font-weight: 600;
   padding-left: 100%;
 
-  animation: tickerMove 17s linear infinite;  /*////////////////////////// 하단 광고줄 속도 조절 코드 */ 
+  animation: tickerMove 12s linear infinite;  /*////////////////////////// 하단 광고줄 속도 조절 코드 */ 
 
   will-change: transform;
   -webkit-transform: translate3d(0, 0, 0);
