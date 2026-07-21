@@ -561,7 +561,7 @@ form input {
 
   padding-left:100%;
 
-  animation:tickerMove 15s linear infinite;/*//////하단바 속도조절 코드 속도를 빠르게 하려면 숫자는 줄이면 됨*/
+  animation:tickerMove 17s linear infinite;/*//////하단바 속도조절 코드 속도를 빠르게 하려면 숫자는 줄이면 됨*/
 }
 
 @keyframes tickerMove{
