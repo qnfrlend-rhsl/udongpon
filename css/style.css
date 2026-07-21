@@ -586,12 +586,10 @@ form input {
 /* 하단 광고 이동 */
 @keyframes tickerMove {
   from {
-    -webkit-transform: translate3d(100, 0, 0);
     transform: translate3d(0, 0, 0);
   }
 
   to {
-    -webkit-transform: translate3d(-100%, 0, 0);
     transform: translate3d(-100%, 0, 0);
   }
 }
