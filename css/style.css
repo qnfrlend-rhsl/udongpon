@@ -562,15 +562,17 @@ form input {
   padding-left:100%;
 
   animation:tickerMove 17s linear infinite;/*//////하단바 속도조절 코드 속도를 빠르게 하려면 숫자는 줄이면 됨*/
+  /* 📱 모바일에서 움직임을 GPU가 처리하도록 */ 
+  will-change: transform; transform: translate3d(0, 0, 0); backface-visibility: hidden;
 }
 
 @keyframes tickerMove{
   from{
-    transform:translateX(0);
+    transform: translate3d(0, 0, 0);
   }
 
   to{
-    transform:translateX(-100%);
+    transform: translate3d(-100%, 0, 0);
   }
 }
 
