@@ -1,25 +1,20 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbxusySsJpoVyM_gIdReIYPcVF4w40-vY9EAuO6HPmuSLvy5hQL3vQomMcSxolmnaMX6LA/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzowtcaSygGh8TSJFJmGKbdxSW_Tvl--e45HsiahlTxleUMIOg5lIS8tI8n60K456S48g/exec";
 
+// 지도 초기화
 // 지도 초기화
 let map;
 
 window.addEventListener("DOMContentLoaded", () => {
 
-  setTimeout(() => {
+  map = L.map('map', {
+    minZoom: 6,
+    maxZoom: 19
+  }).setView([37.885192, 127.745077], 17);
 
-    map = L.map('map', {
-      minZoom: 6,
-      maxZoom: 19
-    }).setView([37.885192, 127.745077], 17);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors',
-      maxZoom: 19
-    }).addTo(map);
-
-    startApp();
-
-  }, 300);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors',
+    maxZoom: 19
+  }).addTo(map);
 
 });
 
@@ -164,22 +159,32 @@ function getRecentSearches() {
 }
 
 // 데이터 로드
-setTimeout(() => {
+// 데이터 로드 시간 측정
+const storeLoadStart = performance.now();
 
-  fetch(GAS_URL + "?action=getStores")
-    .then(res => res.json())
-    .then(stores => {
+fetch(GAS_URL + "?action=getStoreMapData")
+  .then(res => res.json())
+  .then(stores => {
 
-      allStores = stores || [];
+  const storeLoadEnd = performance.now();
 
-      updateStats(); // UI 업데이트 먼저
+  console.log(
+    "📡 매장 데이터 로딩 시간:",
+    ((storeLoadEnd - storeLoadStart) / 1000).toFixed(2),
+    "초"
+  );
 
-      applyFilter(); // 바로 실행 (setTimeout 제거)
+  console.log("📦 getStoreMapData 응답:", stores);
+  console.log("📦 응답 배열 여부:", Array.isArray(stores));
 
-    })
-    .catch(err => console.error("STORE ERROR:", err));
+  allStores = stores || [];
 
-}, 300);
+  updateStats();
+
+  applyFilter();
+
+})
+  .catch(err => console.error("STORE ERROR:", err));
 
 // 상세 이동
 function goToStore(storeName) {
@@ -256,6 +261,8 @@ function searchDong() {
 
 // 🔥 마커 렌더 (배지 추가 버전)
 function renderMarkers(storesData) {
+
+  const markerStart = performance.now();
 
   markers.forEach(m => map.removeLayer(m));
   markers = [];
@@ -372,6 +379,16 @@ if (status === "active") {
     marker.bindPopup(popupContent);
     markers.push(marker);
   });
+
+  const markerEnd = performance.now();
+
+  console.log(
+    "📍 마커 생성 시간:",
+    ((markerEnd - markerStart) / 1000).toFixed(2),
+    "초",
+    "| 마커 수:",
+    markers.length
+  );
 }
 
 // 카테고리 필터
