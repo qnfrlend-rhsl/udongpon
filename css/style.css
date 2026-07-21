@@ -555,21 +555,29 @@ form input {
 }
 
 .news-track{
-  white-space:nowrap;
-  font-size:14px;
-  font-weight:600;
-  padding-left:100%;
-  animation:tickerMove 12s linear infinite;/*//////하단바 속도조절 코드 속도를 빠르게 하려면 숫자는 줄이면 됨*/
-  /* 📱 모바일에서 움직임을 GPU가 처리하도록 */ 
-  will-change: transform; transform: translate3d(0, 0, 0); backface-visibility: hidden;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 600;
+  padding-left: 100%;
+
+  animation: tickerMove 17s linear infinite;  /*////////////////////////// 하단 광고줄 속도 조절 코드 */ 
+
+  will-change: transform;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 @keyframes tickerMove{
   from{
+    -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
   }
 
   to{
+    -webkit-transform: translate3d(-100%, 0, 0);
     transform: translate3d(-100%, 0, 0);
   }
 }
