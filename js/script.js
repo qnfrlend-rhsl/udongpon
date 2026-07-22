@@ -9,7 +9,7 @@ window.addEventListener("DOMContentLoaded", () => {
   map = L.map('map', {
     minZoom: 6,
     maxZoom: 19
-  }).setView([37.8835039, 127.7476243], 16.5);
+  }).setView([37.8835039, 127.7476243], 16);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors',
