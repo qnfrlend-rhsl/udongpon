@@ -78,8 +78,6 @@ function isEventActive(store) {
 
 function updateStats() {
 
-   console.log("🔥 updateStats 실행");
-
   const eventCount = allStores.filter(store =>
     store.status === "active" &&
     isEventActive(store)
@@ -656,6 +654,6 @@ document.addEventListener("click", function(e) {
   }
 });
 
-map.on("moveend", () => {
-  setTimeout(applyFilter, 50);
-});
+//map.on("moveend", () => {
+//  setTimeout(applyFilter, 50);
+//});
