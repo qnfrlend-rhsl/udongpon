@@ -567,12 +567,18 @@ form input {
   font-size: 14px;
   font-weight: 600;
 
-  padding-left: 100%;
-
   animation: tickerMove 12s linear infinite;
 
   -webkit-user-select: none;
   user-select: none;
+}
+
+#newsTrack {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+
+  padding-left: 100%;
 }
 
 @keyframes tickerMove {
