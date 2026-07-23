@@ -124,8 +124,10 @@ function updateStats() {
   <span style="display:inline-block; margin-left:25px; font-size:10px; color:#ff0000;">▶</span> `;
   });
 
-  document.getElementById("newsTrack").innerHTML =
-  newsText;
+  const newsTrack = document.getElementById("newsTrack");
+
+  if (newsTrack.innerHTML !== newsText) {
+  newsTrack.innerHTML = newsText;
   }
 
 
