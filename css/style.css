@@ -569,7 +569,7 @@ form input {
 
   will-change: transform;
 
-  animation: tickerMove 5s linear infinite;
+  animation: tickerMove 10s linear infinite;
 
   -webkit-user-select: none;
   user-select: none;
