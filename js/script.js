@@ -9,7 +9,7 @@ window.addEventListener("DOMContentLoaded", () => {
   map = L.map('map', {
     minZoom: 6,
     maxZoom: 19
-  }).setView([37.8831603, 127.7464282], 16.47);
+  }).setView([37.8831603, 127.7464282], 16.5);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors',
@@ -124,12 +124,9 @@ function updateStats() {
   <span style="display:inline-block; margin-left:25px; font-size:10px; color:#ff0000;">▶</span> `;
   });
 
-  const newsTrack = document.getElementById("newsTrack");
-
-  if (newsTrack.innerHTML !== newsText) {
-  newsTrack.innerHTML = newsText;
+  document.getElementById("newsTrack").innerHTML =
+  newsText;
   }
-}
 
 
 // 최근 검색 저장
