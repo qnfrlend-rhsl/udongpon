@@ -634,7 +634,7 @@ form input {
 
     padding-left: 100%;
 
-    animation: tickerMove 12s linear infinite;
+    animation: tickerMove 15s linear infinite;
 
     will-change: transform;
     transform: translate3d(0, 0, 0);
@@ -656,17 +656,3 @@ form input {
     }
 }
 
-.ticker {
-    width: max-content;
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-
-    padding-left: 100%;
-
-    animation: tickerMove 120s linear infinite;
-
-    will-change: transform;
-    transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
-}
