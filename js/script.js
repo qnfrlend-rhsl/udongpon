@@ -129,6 +129,7 @@ function updateStats() {
   if (newsTrack.innerHTML !== newsText) {
   newsTrack.innerHTML = newsText;
   }
+}
 
 
 // 최근 검색 저장
