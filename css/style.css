@@ -573,15 +573,28 @@ form input {
 
   -webkit-user-select: none;
   user-select: none;
+
+  /* GPU 가속 */
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
+  /* 애니메이션 성능 최적화 */
+  will-change: transform;
+
+  /* 글자 떨림 완화 */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 @keyframes tickerMove {
   from {
-    transform: translateX(0);
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 
   to {
-    transform: translateX(-100%);
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
   }
 }
 
