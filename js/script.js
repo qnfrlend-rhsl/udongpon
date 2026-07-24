@@ -652,8 +652,6 @@ document.addEventListener("click", function(e) {
   }
 });
 
-/*
 map.on("moveend", () => {
   setTimeout(applyFilter, 50);
 });
-*/
