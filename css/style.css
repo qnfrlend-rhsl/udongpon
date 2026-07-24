@@ -554,41 +554,6 @@ form input {
   border-top:2px solid #ff6b35;
 }
 
-/* =====================
-   하단 이벤트 뉴스바
-===================== */
-
-.news-track {
-  display: inline-flex;
-  align-items: center;
-
-  white-space: nowrap;
-
-  font-size: 14px;
-  font-weight: 600;
-
-  padding-left: 100%;
-
-  animation: tickerMove 25s linear infinite;
-
-
-  will-change: transform;
-  transform: translate3d(0, 0, 0);
-
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-@keyframes tickerMove {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-
-  to {
-    transform: translate3d(-100%, 0, 0);
-  }
-}
-
 .header-top {
   position: relative;
 }
@@ -655,4 +620,59 @@ form input {
 .seller-divider {
     margin: 10px 0;
     opacity: 0.3;
+}
+
+
+/* =====================
+   하단 이벤트 뉴스바
+===================== */
+
+.news-track {
+  display: inline-flex;
+  align-items: center;
+
+  white-space: nowrap;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  padding-left: 100%;
+
+  animation: tickerMove 25s linear infinite;
+
+
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@keyframes tickerMove {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+.hot {
+  color: rgb(252, 206, 82);
+  font-weight: 900;
+}
+
+.red {
+  color: rgb(39, 236, 0);
+  font-weight: 900;
+}
+
+.event {
+  color: #00d9ff;
+  font-weight: bold;
+}
+
+.news-track > span {
+  margin-right: 50px;
 }

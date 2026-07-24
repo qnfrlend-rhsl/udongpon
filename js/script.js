@@ -101,9 +101,9 @@ function updateStats() {
     pendingCount + "";
 
   // =====================
-  // 이벤트 뉴스바
+  // 이벤트 뉴스바 화면 하단 줄광고를 말하는 것임.
   // =====================
-
+/*
   const eventStores = allStores.filter(store =>
     store.status === "active" &&
     isEventActive(store)
@@ -125,7 +125,7 @@ function updateStats() {
   });
 
   document.getElementById("newsTrack").innerHTML =
-  newsText;
+  newsText;*/
   }
 
 
