@@ -28,7 +28,7 @@
   font-size: 14px;
   font-weight: 600;
 
-  animation: tickerMove 30s linear infinite;
+  animation: tickerMove 40s linear infinite;
 
   will-change: transform;
 
@@ -42,7 +42,7 @@
 
 @keyframes tickerMove {
   from {
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(100vw, 0, 0)
   }
 
   to {
@@ -55,7 +55,7 @@
   font-weight: 900;
 }
 
-.red {
+.green {
   color: rgb(39, 236, 0);
   font-weight: 900;
 }
@@ -66,6 +66,6 @@
 }
 
 .blue {
-  color: rgb(39, 236, 0);
+  color: #008eec;
   font-weight: bold;
 }
