@@ -571,6 +571,10 @@ form input {
 
   animation: tickerMove 15s linear infinite;
 
+
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+
   -webkit-user-select: none;
   user-select: none;
 }
