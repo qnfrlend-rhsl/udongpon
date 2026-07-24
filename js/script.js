@@ -125,7 +125,8 @@ function updateStats() {
   });
 
   document.getElementById("newsTrack").innerHTML =
-  newsText;*/
+  newsText;
+  */
   }
 
 
