@@ -98,6 +98,23 @@
 
 </header>
 
+<div class="search-container">
+  <!-- 시·군 검색 -->
+<section class="search-section">
+
+  <div class="search-wrap">
+
+    <input 
+      type="text" 
+      id="cityInput" 
+      placeholder="시·군 검색 (예: 춘천시, 홍천군)"
+      autocomplete="off">
+
+  </div>
+
+  <button onclick="searchCity()">검색</button>
+
+</section>
   <!-- 검색 -->
   <section class="search-section">
 
@@ -106,7 +123,7 @@
     <input 
       type="text" 
       id="dongInput" 
-      placeholder="지역(후평동) 또는 상호명 검색"
+      placeholder="해당지역(후평동) 또는 상호명 검색"
       autocomplete="off">
 
     <div id="autocompleteList" class="autocomplete-list"></div>
@@ -116,6 +133,8 @@
   <button onclick="searchDong()">검색</button>
 
 </section>
+
+</div>
 
   <!-- 내 쿠폰 
   <section class="my-coupon-section">
@@ -157,7 +176,7 @@
 
   <!-- 카테고리 -->
   <section class="category-section">
-    <button onclick="filterCategory('전체')">전체</button>
+    <button onclick="filterCategory('전체')">전체(시/군)</button>
     <button onclick="filterCategory('카페')">카페</button>
     <button onclick="filterCategory('한식')">한식</button>
     <button onclick="filterCategory('중식')">중식</button>
