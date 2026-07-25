@@ -98,41 +98,45 @@
 
 </header>
 
+<!-- 검색 영역 -->
 <div class="search-container">
+
   <!-- 시·군 검색 -->
-<section class="search-section">
-
-  <div class="search-wrap">
-
-    <input 
-      type="text" 
-      id="cityInput" 
-      placeholder="시·군 검색 (예: 춘천시, 홍천군)"
-      autocomplete="off">
-
-  </div>
-
-  <button onclick="searchCity()">검색</button>
-
-</section>
-  <!-- 검색 -->
   <section class="search-section">
 
-  <div class="search-wrap">
+    <div class="search-wrap">
 
-    <input 
-      type="text" 
-      id="dongInput" 
-      placeholder="해당지역(후평동) 또는 상호명 검색"
-      autocomplete="off">
+      <input 
+        type="text" 
+        id="cityInput" 
+        placeholder="시·군 검색 (예: 춘천시, 홍천군)"
+        autocomplete="off">
 
-    <div id="autocompleteList" class="autocomplete-list"></div>
+    </div>
 
-  </div>
+    <button onclick="searchCity()">검색</button>
 
-  <button onclick="searchDong()">검색</button>
+  </section>
 
-</section>
+
+  <!-- 기존 지역·동·상호명 검색 -->
+  <section class="search-section">
+
+    <div class="search-wrap">
+
+      <input 
+        type="text" 
+        id="dongInput" 
+        placeholder="해당지역(후평동) 또는 상호명 검색"
+        autocomplete="off">
+
+      <div id="autocompleteList" class="autocomplete-list"></div>
+
+    </div>
+
+    <button onclick="searchDong()">검색</button>
+
+  </section>
 
 </div>
 
