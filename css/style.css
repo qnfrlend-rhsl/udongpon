@@ -24,18 +24,32 @@ body {
 
 .search-container {
   display: flex;
-  gap: 8px;
-  padding: 5px 15px;
-  margin: 0;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
 }
 
-.search-section input {
+.search-container .search-section {
+  display: flex;
+  gap: 5px;
+  padding: 0;
+  width: 100%;
+}
+
+.search-container .search-wrap {
   flex: 1;
+  min-width: 0;
+}
+
+.search-container .search-section input {
+  width: 100%;
+  box-sizing: border-box;
   padding: 10px;
   font-size: 15px;
 }
 
-.search-section button {           /*////////////////////////////////////////  검색이란 버튼 색상임*/
+.search-container .search-section button {           
+  flex-shrink: 0;
   padding: 10px 12px;
   border: none;
   background: #891f9e;
