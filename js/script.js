@@ -1,4 +1,4 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbzowtcaSygGh8TSJFJmGKbdxSW_Tvl--e45HsiahlTxleUMIOg5lIS8tI8n60K456S48g/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzB6eG0cWsGrh9lBlhrSjcRWbhZmoYJs4D0-UVva1CUgRm4aKq_JFJd14oqLDH1jJSpxw/exec";
 
 // 지도 초기화
 // 지도 초기화
@@ -22,6 +22,8 @@ window.addEventListener("DOMContentLoaded", () => {
 let markers = [];
 let allStores = [];
 let allCoupons = [];
+let cityList = [];
+let currentCity = "";
 let currentDong = "";
 let currentCategory = "전체";
 let isInitialLoad = true;
@@ -180,6 +182,26 @@ fetch(GAS_URL + "?action=getStoreMapData")
 
   allStores = stores || [];
 
+  // 등록된 매장 주소에서 시·군 목록 추출
+  cityList = [
+  ...new Set(
+    allStores
+      .map(store => {
+        const address = (store.address || "").trim();
+        const parts = address.split(" ");
+
+        // 주소에서 시 또는 군으로 끝나는 항목 찾기
+        return parts.find(part =>
+          part.endsWith("시") || part.endsWith("군")
+        );
+      })
+      .filter(Boolean)
+    )
+  ];
+
+  console.log("📍 시·군 목록:", cityList);
+
+
   updateStats();
 
   applyFilter();
@@ -190,6 +212,65 @@ fetch(GAS_URL + "?action=getStoreMapData")
 // 상세 이동
 function goToStore(storeName) {
   window.location.href = `store.html?name=${encodeURIComponent(storeName)}`;
+}
+
+const cityInput = document.getElementById("cityInput");
+const dongInput = document.getElementById("dongInput");
+const autocompleteList = document.getElementById("autocompleteList");
+
+// 시·군 검색
+function searchCity() {
+
+  const input = cityInput.value.trim();
+
+  if (!input) return;
+
+  // 입력한 시·군이 등록된 매장 주소에 있는지 확인
+  const cityStores = allStores.filter(store =>
+    (store.address || "").includes(input)
+  );
+
+console.log("🔎 검색한 시·군:", input);
+console.log("📍 첫 번째 주소:", allStores[0]?.address);
+console.log("🏪 검색된 매장:", cityStores);
+
+  // 해당 시·군 매장이 없으면 종료
+  if (!cityStores.length) {
+    alert("등록된 매장이 없는 지역입니다.");
+    return;
+  }
+
+  // 현재 선택된 시·군 저장
+  currentCity = input;
+
+  // 동 검색 초기화
+  currentDong = "";
+
+  // 카테고리 초기화
+  currentCategory = "전체";
+
+  // 해당 시·군의 첫 번째 매장 위치로 지도 이동
+  const firstStore = cityStores[0];
+
+  map.setView(
+    [
+      Number(firstStore.lat),
+      Number(firstStore.lng)
+    ],
+    17,
+    { animate: true }
+  );
+
+  // 해당 시·군 전체 매장 표시
+  applyFilter();
+
+  console.log(
+    "현재 선택된 시·군:",
+    currentCity,
+    "| 매장 수:",
+    cityStores.length
+  );
+
 }
 
 // 지역 검색
@@ -228,15 +309,21 @@ function searchDong() {
     return;
   }
 
-  // =====================
-  // 2. 상호명 검색
-  // =====================
+// =====================
+// 2. 상호명 검색
+// =====================
 
-  const matchedStore = allStores.find(store =>
-    (store.storeName || "")
-      .toLowerCase()
-      .includes(input)
-  );
+const searchStores = currentCity
+  ? allStores.filter(store =>
+      (store.address || "").includes(currentCity)
+    )
+  : allStores;
+
+const matchedStore = searchStores.find(store =>
+  (store.storeName || "")
+    .toLowerCase()
+    .includes(input)
+);
 
   if (matchedStore) {
 
@@ -424,12 +511,21 @@ function applyFilter() {
 
   let filtered = allStores || [];
 
-  if (currentDong && currentDong !== "전체") {
-  filtered = filtered.filter(store =>
-    (store.dong || "").includes(currentDong)
-  );
-}
+  // 시·군 필터
+  if (currentCity) {
+    filtered = filtered.filter(store =>
+      (store.address || "").includes(currentCity)
+    );
+  }
 
+  // 동 필터
+  if (currentDong && currentDong !== "전체") {
+    filtered = filtered.filter(store =>
+      (store.dong || "").includes(currentDong)
+    );
+  }
+
+  // 카테고리 필터
   if (currentCategory && currentCategory !== "전체") {
     filtered = filtered.filter(store =>
       store.category === currentCategory
@@ -458,6 +554,12 @@ filtered = filtered.filter(store => {
 }
 
 // 엔터 검색
+document.getElementById("cityInput").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    searchCity();
+  }
+});
+
 document.getElementById("dongInput").addEventListener("keypress", function(e) {
   if (e.key === "Enter") {
     searchDong();
@@ -553,10 +655,46 @@ document.getElementById("couponPhone").addEventListener("keypress", function(e) 
   }
 });
 
-const dongInput = document.getElementById("dongInput");
-const autocompleteList = document.getElementById("autocompleteList");
+// =====================
+// 시·군 자동완성
+// =====================
+cityInput.addEventListener("input", function() {
 
+  const input = this.value.trim().toLowerCase();
+
+  autocompleteList.innerHTML = "";
+
+  if (!input) {
+    autocompleteList.style.display = "none";
+    return;
+  }
+
+  const matchedCities = cityList.filter(city =>
+    city.toLowerCase().includes(input) ||
+    input.includes(city.toLowerCase())
+  );
+
+  if (!matchedCities.length) {
+    autocompleteList.style.display = "none";
+    return;
+  }
+
+  matchedCities.slice(0, 8).forEach(city => {
+
+    autocompleteList.innerHTML += `
+      <div class="city-autocomplete-item">
+        ${city}
+      </div>
+    `;
+
+  });
+
+  autocompleteList.style.display = "block";
+});
+
+// =====================
 // 입력 시 자동완성
+// =====================
 dongInput.addEventListener("input", function() {
 
   const input = this.value.trim().toLowerCase();
@@ -593,10 +731,19 @@ dongInput.addEventListener("input", function() {
     return;
   }
 
-  // 동 목록
+// =====================
+// 1. 동 검색
+// =====================
   const dongList = Object.keys(dongCoords);
 
-  const storeList = allStores.map(
+// 현재 선택된 시·군의 매장만 자동완성에 사용
+  const searchStores = currentCity
+  ? allStores.filter(store =>
+      (store.address || "").includes(currentCity)
+    )
+  : allStores;
+
+  const storeList = searchStores.map(
   store => store.storeName
   );
 
@@ -630,18 +777,33 @@ dongInput.addEventListener("input", function() {
 // 클릭 선택
 autocompleteList.addEventListener("click", function(e) {
 
-  if (
-    !e.target.classList.contains("autocomplete-item") ||
-    e.target.classList.contains("recent-label")
-  ) return;
+  // 시·군 자동완성 클릭
+  if (e.target.classList.contains("city-autocomplete-item")) {
 
-  const text = e.target.innerText;
+    const city = e.target.innerText.trim();
 
-  dongInput.value = text;
+    cityInput.value = city;
 
-  autocompleteList.style.display = "none";
+    autocompleteList.style.display = "none";
 
-  searchDong();
+    searchCity();
+
+    return;
+  }
+
+  // 동·상호명 자동완성 클릭
+  if (e.target.classList.contains("autocomplete-item")) {
+
+    const value = e.target.innerText.trim();
+
+    dongInput.value = value;
+
+    autocompleteList.style.display = "none";
+
+    searchDong();
+
+  }
+
 });
 
 // 바깥 클릭 시 닫기
