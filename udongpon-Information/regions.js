@@ -8,7 +8,7 @@ const regions = {
     {
         name: "원주시 우동폰",
         sub: "원주시 지역 매장과 정보를 만나보세요",
-        url: "#"
+        url: "https://udongpon-wonju-1.netlify.app/"
     },
     {
         name: "강릉시 우동폰",
