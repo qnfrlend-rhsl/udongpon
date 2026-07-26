@@ -11,7 +11,7 @@ window.addEventListener("DOMContentLoaded", () => {
   map = L.map('map', {
     minZoom: 6,
     maxZoom: 19
-   }).setView([37.6918, 127.8889], 13);
+   }).setView([37.8834911, 127.7477166], 17);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors',
@@ -27,7 +27,7 @@ let markers = [];
 let allStores = [];
 let allCoupons = [];
 let cityList = [];
-let currentCity = "홍천군";    /////////////////////////////////////////// 지역 바꿀 때 사용 
+let currentCity = "춘천시";    /////////////////////////////////////////// 지역 바꿀 때 사용 
 let currentDong = "";
 let currentCategory = "전체";
 let isInitialLoad = true;
@@ -197,7 +197,7 @@ fetch(GAS_URL + "?action=getStoreMapData")
 
   // 등록된 매장 주소에서 시·군 목록 추출  //////////////////////////////////  지역 바꿀 때 사용
 
-  cityList = ["홍천군"];
+  cityList = ["춘천시"];
 
   // 등록된 매장 주소에서 시·군 목록 추출  //////////////////////////////////  지역 바꿀 때 사용 끝
 

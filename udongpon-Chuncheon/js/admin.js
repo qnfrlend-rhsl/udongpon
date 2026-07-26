@@ -93,7 +93,7 @@ async function loadStores() {
     );
     const data = await res.json();
 
-    const REGION = "홍천군";  ////////////////////////////////////////////////// 지역별 추가할 때 수정할 코드
+    const REGION = "춘천시";  ////////////////////////////////////////////////// 지역별 추가할 때 수정할 코드
 
     allStores = (Array.isArray(data) ? data : [])
       .filter(store => store && typeof store === "object")
@@ -321,7 +321,7 @@ async function addStore(status = 'active') {
   const websiteUrl = document.getElementById("storeWebsite")?.value || "";
   const storePassword = document.getElementById("storePassword")?.value || "";
 
-  const REGION = "홍천군";  /////////////////////////////////////////////////////// 지역별 추가할 때 수정
+  const REGION = "춘천시";  /////////////////////////////////////////////////////// 지역별 추가할 때 수정
 
 // 다른 지역 매장 등록 차단
     if (!address.includes(REGION)) {
