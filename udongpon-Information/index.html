@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우동폰</title>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+    body {
+        margin: 0;
+        font-family: Arial, "Noto Sans KR", sans-serif;
+        background: #f4f6fb;
+        color: #333;
+    }
+    /* =========================
+       화려한 헤더
+    ========================= */
+    .hero {
+        position: relative;
+        overflow: hidden;
+        padding: 80px 20px 70px;
+        text-align: center;
+        color: white;
+        background: linear-gradient(
+            135deg,
+            #6a11cb 0%,
+            #2575fc 50%,
+            #00c6ff 100%
+        );
+    }
+
+    /* 빛나는 원형 장식 */
+    .hero::before,
+    .hero::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        pointer-events: none;
+    }
+
+    .hero::before {
+        width: 300px;
+        height: 300px;
+        top: -150px;
+        left: -100px;
+    }
+
+    .hero::after {
+        width: 400px;
+        height: 400px;
+        right: -180px;
+        bottom: -250px;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.logo img {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+    border-radius: 10px;
+    background: white;
+    padding: 4px;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+}
+
+.logo-text {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    text-align: left;
+    color: white;
+    font-size: 52px;
+    font-weight: 900;
+    letter-spacing: -4px;
+    line-height: 1;
+    text-shadow:
+        0 4px 0 rgba(0, 0, 0, 0.08),
+        0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.logo-text span {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0;
+    opacity: 0.95;
+}
+
+    .description {
+        margin: 0;
+        font-size: 19px;
+        line-height: 1.7;
+        font-weight: 500;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    /* =========================
+       지역 선택 영역
+    ========================= */
+    .container {
+        max-width: 650px;
+        margin: 0 auto;
+        padding: 45px 20px 60px;
+    }
+
+    .section-title {
+        margin: 0 0 25px;
+        text-align: center;
+        font-size: 23px;
+        font-weight: 800;
+        color: #222;
+    }
+
+    .section-title::after {
+        content: "";
+        display: block;
+        width: 45px;
+        height: 4px;
+        margin: 12px auto 0;
+        border-radius: 10px;
+        background: linear-gradient(
+            90deg,
+            #6a11cb,
+            #2575fc
+        );
+    }
+
+    /* =========================
+       지역 링크 박스
+    ========================= */
+    .region-box {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 24px;
+        margin-bottom: 16px;
+        overflow: hidden;
+        border-radius: 18px;
+        background: white;
+        text-decoration: none;
+        color: #222;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease;
+    }
+
+    .region-box::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 6px;
+        height: 100%;
+        background: linear-gradient(
+            180deg,
+            #6a11cb,
+            #2575fc
+        );
+    }
+
+    .region-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.14);
+    }
+
+    .region-info {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        text-align: left;
+    }
+
+    .region-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        font-size: 23px;
+        background: #f0edff;
+    }
+
+    .region-name {
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .region-sub {
+        margin-top: 4px;
+        font-size: 13px;
+        color: #888;
+    }
+
+    .arrow {
+        font-size: 24px;
+        color: #6a11cb;
+        font-weight: bold;
+    }
+
+    /* =========================
+       하단
+    ========================= */
+
+    footer {
+        padding: 25px 20px;
+        text-align: center;
+        font-size: 13px;
+        color: #999;
+    }
+
+    /* =========================
+       모바일
+    ========================= */
+
+    @media (max-width: 600px) {
+        .hero {
+            padding: 65px 20px 55px;
+        }
+        .logo {
+            font-size: 48px;
+        }
+        .logo span {
+            display: block;
+            margin: 10px 0 0;
+            font-size: 16px;
+        }
+        .description {
+            font-size: 16px;
+        }
+        .container {
+            padding-top: 35px;
+        }
+        .region-box {
+            padding: 19px 18px;
+        }
+    }
+</style>
+</head>
+<body>
+<!-- =========================
+     우동폰 메인 헤더
+========================= -->
+<header class="hero">
+    <div class="hero-content">
+        <div class="logo">
+            <img src="logo.png" alt="우동폰 로고">
+            <div class="logo-text">
+                우동폰
+                <span>우리 동네 할인 / 쿠폰 플랫폼</span>
+            </div>
+        </div>
+        <p class="description">
+            우리 동네 매장과 다양한 정보를<br>
+            한눈에 만나보세요.
+        </p>
+    </div>
+</header>
+<!-- =========================
+     지역 선택
+========================= -->
+<main class="container">
+    <h2 class="section-title">
+        지역을 선택하세요
+    </h2>
+    
+    <!-- 홍천군 -->
+    <a
+        class="region-box"
+        href="https://udongpon-hongcheon.netlify.app/"
+        target="_blank"
+        rel="noopener"
+    >
+        <div class="region-info">
+            <div class="region-icon">
+                📍
+            </div>
+            <div>
+                <div class="region-name">
+                    홍천군 우동폰
+                </div>
+                <div class="region-sub">
+                    홍천군 지역 매장과 정보를 만나보세요
+                </div>
+            </div>
+        </div>
+        <div class="arrow">
+            →
+        </div>
+    </a>
+
+
+    <!-- 앞으로 지역 추가 -->
+
+    <!--
+    <a
+        class="region-box"
+        href="춘천우동폰주소"
+        target="_blank"
+        rel="noopener"
+    >
+        <div class="region-info">
+            <div class="region-icon">
+                📍
+            </div>
+
+            <div>
+                <div class="region-name">
+                    춘천시 우동폰
+                </div>
+
+                <div class="region-sub">
+                    춘천시 지역 매장과 정보를 만나보세요
+                </div>
+            </div>
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+    </a>
+    -->
+
+</main>
+<footer>
+    © 2026 고니의 우동폰. 우리 동네 할인/쿠폰의 모든 것.
+</footer>
+</body>
+</html>
