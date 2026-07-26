@@ -1,7 +1,6 @@
 const GAS_URL = "https://script.google.com/macros/s/AKfycbzB6eG0cWsGrh9lBlhrSjcRWbhZmoYJs4D0-UVva1CUgRm4aKq_JFJd14oqLDH1jJSpxw/exec";
 
 // 지도 초기화
-// 지도 초기화
 let map;
 
 window.addEventListener("DOMContentLoaded", () => {
