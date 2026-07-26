@@ -13,12 +13,12 @@ const regions = {
     {
         name: "강릉시 우동폰",
         sub: "강릉시 지역 매장과 정보를 만나보세요",
-        url: "#"
+        url: "https://udongpon-gangneung.netlify.app/"
     },
     {
         name: "동해시 우동폰",
         sub: "동해시 지역 매장과 정보를 만나보세요",
-        url: "#"
+        url: "https://udongpon-donghae.netlify.app/"
     },
     {
         name: "태백시 우동폰",
