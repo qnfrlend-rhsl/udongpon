@@ -23,17 +23,17 @@ const regions = {
     {
         name: "태백시 우동폰",
         sub: "태백시 지역 매장과 정보를 만나보세요",
-        url: "#"
+        url: "https://udongpon-taebaek.netlify.app/"
     },
     {
         name: "속초시 우동폰",
         sub: "속초시 지역 매장과 정보를 만나보세요",
-        url: "#"
+        url: "https://udongpon-sokcho.netlify.app/"
     },
     {
         name: "삼척시 우동폰",
         sub: "삼척시 지역 매장과 정보를 만나보세요",
-        url: "#"
+        url: "https://udongpon-samcheok.netlify.app/"
     },
     {
         name: "홍천군 우동폰",
@@ -43,52 +43,52 @@ const regions = {
     {
         name: "횡성군 우동폰",
         sub: "횡성군 지역 매장과 정보를 만나보세요",
-        url: "#"
+        url: "https://udongpon-hoengseong.netlify.app/"
     },
     {
         name: "영월군 우동폰",
         sub: "영월군 지역 매장과 정보를 만나보세요",
-        url: "#"
+        url: "https://udongpon-yeongwol.netlify.app/"
     },
     {
         name: "평창군 우동폰",
         sub: "평창군 지역 매장과 정보를 만나보세요",
-        url: "#"
+        url: "https://udongpon-pyeongchang.netlify.app/"
     },
     {
         name: "정선군 우동폰",
         sub: "정선군 지역 매장과 정보를 만나보세요",
-        url: "#"
+        url: "https://udongpon-jeongseon.netlify.app/"
     },
     {
         name: "철원군 우동폰",
         sub: "철원군 지역 매장과 정보를 만나보세요",
-        url: "#"
+        url: "https://udongpon-cheorwon.netlify.app/"
     },
     {
         name: "화천군 우동폰",
         sub: "화천군 지역 매장과 정보를 만나보세요",
-        url: "#"
+        url: "https://udongpon-hwacheon.netlify.app/"
     },
     {
         name: "양구군 우동폰",
         sub: "양구군 지역 매장과 정보를 만나보세요",
-        url: "#"
+        url: "https://udongpon-yanggu.netlify.app/"
     },
     {
         name: "인제군 우동폰",
         sub: "인제군 지역 매장과 정보를 만나보세요",
-        url: "#"
+        url: "https://udongpon-inje.netlify.app/"
     },
     {
         name: "고성군 우동폰",
         sub: "고성군 지역 매장과 정보를 만나보세요",
-        url: "#"
+        url: "https://udongpon-goseong.netlify.app/"
     },
     {
         name: "양양군 우동폰",
         sub: "양양군 지역 매장과 정보를 만나보세요",
-        url: "#"
+        url: "https://udongpon-yangyang.netlify.app/"
     }
 ],
 
