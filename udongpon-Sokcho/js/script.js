@@ -11,7 +11,7 @@ window.addEventListener("DOMContentLoaded", () => {
   map = L.map('map', {
     minZoom: 6,
     maxZoom: 19
-   }).setView([38.2071, 128.591913], 17);
+   }).setView([38.2071, 128.591913], 16);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors',
